@@ -1,0 +1,28 @@
+{
+  "name": "tasty-item",
+  "version": "1.0.0",
+  "description": "Share favorite stuff with the world!",
+  "main": "index.js",
+  "scripts": {
+    "react": "npm start --prefix frontend",
+    "start": "concurrently \"nodemon index.js\" \"npm run react\""
+  },
+  "keywords": [
+    "mern",
+    "node.js",
+    "react"
+  ],
+  "author": "Andrei Abramchuk",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^4.5.2",
+    "express": "^4.17.1",
+    "mongoose": "^5.10.0",
+    "node-sass": "^4.14.1",
+    "react-bootstrap": "^1.3.0",
+    "react-router-dom": "^5.2.0"
+  },
+  "devDependencies": {
+    "dotenv": "^8.2.0"
+  }
+}
