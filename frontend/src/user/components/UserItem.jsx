@@ -1,28 +1,21 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
+
 import './UserItem.scss'
-import Avatar from '../../shared/components/UIElements/Avatar'
-import Card from '../../shared/components/UIElements/Card'
+import { Card, Button } from 'react-bootstrap'
 
 
 export default function UserItem({ id, alt, name, image, itemCount }) {
   return (
-    <li className="user-item">
-      <Card className="user-item__content">
+    <Card className="text-center user-item">
+      <Card.Img src={image} />
+      <Card.Body>
+        <Card.Title>{name}</Card.Title>
         <Link to={`/${id}/items`}>
-          <div className="user-item__image">
-            <Avatar
-              image={image}
-              alt={alt}
-            />
-          </div>
-          <div className="user-item__info">
-            <h2>{name}</h2>
-            <h3>{itemCount} {itemCount === 1 ? 'Item' : 'Items'}</h3>
-          </div>
+          <Button variant="primary">{itemCount} {itemCount === 1 ? 'Item' : 'Items'}</Button>
         </Link>
-      </Card>
-    </li>
+      </Card.Body>
+    </Card>
   )
 }

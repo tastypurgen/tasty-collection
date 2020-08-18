@@ -1,6 +1,7 @@
 import React from 'react'
 import UserItem from './UserItem'
 import './UserList.scss'
+import { Container, Row, Col } from 'react-bootstrap'
 
 export default function UserList({ users }) {
   console.log(users)
@@ -12,16 +13,22 @@ export default function UserList({ users }) {
     )
   }
   return (
-    <ul className="user-list">
-      {users.map(user => {
-        return <UserItem
-          key={user.id}
-          id={user.id}
-          image={user.image}
-          name={user.name}
-          itemCount={user.items}
-        />
-      })}
-    </ul>
+    <Container>
+      <Row>
+        {users.map(user => {
+          return (
+            <Col sm={6} md={4} text-center>
+              <UserItem
+                key={user.id}
+                id={user.id}
+                image={user.image}
+                name={user.name}
+                itemCount={user.items}
+              />
+            </Col>
+          )
+        })}
+      </Row>
+    </Container >
   )
 }
