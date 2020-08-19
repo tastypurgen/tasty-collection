@@ -1,4 +1,5 @@
 import React from 'react';
+import { useParams } from 'react-router-dom';
 import ItemList from '../../component/ItemList';
 
 const ITEMS = [
@@ -27,12 +28,14 @@ const ITEMS = [
     description: 'The Shawshank Redemption is a 1994 American drama film written and directed by Frank Darabont, based on the 1982 Stephen King novella',
     image: 'https://images-na.ssl-images-amazon.com/images/I/51zUbui%2BgbL.jpg',
     tags: ['drama', 'interesting', 'film', 'fiction'],
-    creatorId: 'u2',
+    creatorId: 'u1',
   },
 ];
 
 export default function UserItems() {
+  const { userId } = useParams();
+  const userItems = ITEMS.filter((item) => userId === item.creatorId);
   return (
-    <ItemList items={ITEMS} />
+    <ItemList items={userItems} />
   );
 }

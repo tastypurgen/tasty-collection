@@ -14,7 +14,7 @@ export default function Header() {
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
           <Nav.Link as={NavLink} exact to="/">Home</Nav.Link>
-          <Nav.Link as={NavLink} to="/ul/items">My Items</Nav.Link>
+          <Nav.Link as={NavLink} to="/u1/items">My Items</Nav.Link>
           <Nav.Link as={NavLink} to="/items/add">Add Item</Nav.Link>
         </Nav>
         <Form inline>
