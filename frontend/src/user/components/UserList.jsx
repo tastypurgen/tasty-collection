@@ -12,6 +12,7 @@ export default function UserList({ users }) {
       </div>
     );
   }
+
   return (
     <Container>
       <Row>

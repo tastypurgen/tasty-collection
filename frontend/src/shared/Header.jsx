@@ -6,7 +6,7 @@ import { NavLink, Link } from 'react-router-dom';
 
 export default function Header() {
   return (
-    <Navbar bg="dark" variant="dark" expand="md">
+    <Navbar className="mb-3" bg="dark" variant="dark" expand="md">
       <Link to="/">
         <Navbar.Brand>TastyCollection</Navbar.Brand>
       </Link>

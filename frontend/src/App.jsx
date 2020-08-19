@@ -9,6 +9,7 @@ import {
 import Users from './user/pages/Users';
 import NewItem from './items/pages/NewItem';
 import Header from './shared/Header';
+import UserItems from './items/pages/UserItems';
 
 export default function App() {
   return (
@@ -18,6 +19,9 @@ export default function App() {
       <Switch>
         <Route exact path="/">
           <Users />
+        </Route>
+        <Route exact path="/:userId/items">
+          <UserItems />
         </Route>
         <Route exact path="/items/add">
           <NewItem />
