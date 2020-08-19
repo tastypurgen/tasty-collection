@@ -13,7 +13,7 @@ export default function UserItem({
       <Card.Body>
         <Card.Title>{name}</Card.Title>
         <Link to={`/${id}/items`}>
-          <Button variant="primary">
+          <Button variant="info">
             {itemCount} {itemCount === 1 ? 'Item' : 'Items'}
           </Button>
         </Link>

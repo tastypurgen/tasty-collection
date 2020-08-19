@@ -8,15 +8,18 @@ import {
 
 import Users from './user/pages/Users';
 import NewItem from './items/pages/NewItem';
+import Header from './shared/Header';
 
 export default function App() {
   return (
     <Router>
+      <Header />
+
       <Switch>
-        <Route path="/" exact>
+        <Route exact path="/">
           <Users />
         </Route>
-        <Route path="/places/new" exact>
+        <Route exact path="/items/add">
           <NewItem />
         </Route>
         <Redirect to="/" />
