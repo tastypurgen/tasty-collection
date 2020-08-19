@@ -3,7 +3,7 @@ import {
   BrowserRouter as Router,
   Route,
   Redirect,
-  Switch
+  Switch,
 } from 'react-router-dom';
 
 import Users from './user/pages/Users';
@@ -23,4 +23,4 @@ export default function App() {
       </Switch>
     </Router>
   );
-};
+}
