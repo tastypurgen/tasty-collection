@@ -1,4 +1,5 @@
 import React, { useReducer, useEffect } from 'react';
+import { FormControl, Form, Alert } from 'react-bootstrap';
 import { validate } from '../utils/validator';
 
 const inputReducer = (state, action) => {
@@ -47,24 +48,47 @@ export default function Input({
   let component;
   if (element === 'input') {
     component = (
-      <input
-        id={id}
-        type={type}
-        placeholder={placeholder}
-        onChange={changeHandler}
-        onBlur={touchHandler}
-        value={inputState.value}
-      />
+      <Form.Group>
+        <FormControl
+          id={id}
+          type={type}
+          placeholder={placeholder}
+          onChange={changeHandler}
+          onBlur={touchHandler}
+          value={inputState.value}
+        />
+      </Form.Group>
+    );
+  } else if (element === 'select') {
+    component = (
+      <Form.Group>
+        <FormControl
+          as="select"
+          id={id}
+          onChange={changeHandler}
+          onBlur={touchHandler}
+          value={inputState.value}
+        >
+          <option value=""> -- select a collection -- </option>
+          <option value="film">Film</option>
+          <option value="book">Book</option>
+          <option value="game">Video Game</option>
+          <option value="food">Food</option>
+        </FormControl>
+      </Form.Group>
     );
   } else {
     component = (
-      <textarea
-        id={id}
-        rows={rows || 3}
-        onChange={changeHandler}
-        onBlur={touchHandler}
-        value={inputState.value}
-      />
+      <Form.Group>
+        <FormControl
+          as="textarea"
+          id={id}
+          rows={rows || 3}
+          onChange={changeHandler}
+          onBlur={touchHandler}
+          value={inputState.value}
+        />
+      </Form.Group>
     );
   }
 
@@ -74,7 +98,12 @@ export default function Input({
     >
       <label htmlFor={id}>{label}</label>
       {component}
-      {!inputState.isValid && inputState.isTouched && <p>{errorText}</p>}
+      {!inputState.isValid && inputState.isTouched
+        && (
+          <Alert variant="danger">
+            {errorText}
+          </Alert>
+        )}
     </div>
   );
 }

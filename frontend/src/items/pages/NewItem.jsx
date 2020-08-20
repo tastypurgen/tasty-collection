@@ -1,6 +1,6 @@
 import React, { useCallback, useReducer } from 'react';
 import {
-  Button, Dropdown, DropdownButton,
+  Button, Form, Container,
 } from 'react-bootstrap';
 
 import Input from '../../shared/Input';
@@ -33,12 +33,20 @@ const formReducer = (state, action) => {
 export default function NewPlace() {
   const [formState, dispatch] = useReducer(formReducer, {
     inputs: {
+      dropdown: {
+        value: '',
+        isValid: false,
+      },
       title: {
         value: '',
         isValid: false,
       },
       description: {
         value: '',
+        isValid: false,
+      },
+      tags: {
+        value: [],
         isValid: false,
       },
     },
@@ -55,45 +63,65 @@ export default function NewPlace() {
   }, []);
 
   const submitHandler = (event) => {
-    console.log(formState.inputs);
     event.preventDefault();
+    const splittedTags = formState.inputs.tags.value.split(',').map((tag) => tag.trim());
+
+    // send to back later
+    // eslint-disable-next-line no-console
+    console.log({
+      ...formState.inputs,
+      tags: {
+        value: splittedTags,
+        isValid: true,
+      },
+    });
   };
 
   return (
-    <form className="place-form" onSubmit={submitHandler}>
-      <DropdownButton id="dropdown-basic-button" title="Dropdown button">
-        <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-        <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-        <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-      </DropdownButton>
-      <Input
-        id="title"
-        element="input"
-        type="text"
-        label="Title"
-        validators={[VALIDATOR_REQUIRE()]}
-        errorText="Please enter a valid title"
-        onInput={inputHandler}
-      />
-      <Input
-        id="description"
-        element="input"
-        label="Description"
-        validators={[VALIDATOR_MINLENGTH(5)]}
-        errorText="Please enter a description (at least 5 characters)"
-        onInput={inputHandler}
-      />
-      <Input
-        id="tags"
-        element="input"
-        label="Tags"
-        validators={[VALIDATOR_REQUIRE()]}
-        errorText="Please enter at least 1 tag"
-        onInput={inputHandler}
-      />
-      <Button type="submit" disabled={!formState.isValid}>
-        Submit
-      </Button>
-    </form>
+    <Container style={{ maxWidth: '600px' }}>
+      <Form onSubmit={submitHandler}>
+        <Input
+          id="dropdown"
+          element="select"
+          label="Collection"
+          validators={[VALIDATOR_REQUIRE()]}
+          errorText="Please choose a collection"
+          onInput={inputHandler}
+        />
+        <Input
+          id="title"
+          element="input"
+          type="text"
+          label="Title"
+          validators={[VALIDATOR_REQUIRE()]}
+          errorText="Please enter a valid title"
+          onInput={inputHandler}
+        />
+        <Input
+          id="description"
+          element="textarea"
+          label="Description"
+          validators={[VALIDATOR_MINLENGTH(5)]}
+          errorText="Please enter a description (at least 5 characters)"
+          onInput={inputHandler}
+        />
+        <Input
+          id="tags"
+          element="input"
+          label="Tags (comma separated)"
+          validators={[VALIDATOR_REQUIRE()]}
+          errorText="Please enter at least 1 tag"
+          onInput={inputHandler}
+        />
+        <Button
+          type="submit"
+          variant="info"
+          block
+          disabled={!formState.isValid}
+        >
+          Submit
+        </Button>
+      </Form>
+    </Container>
   );
 }
