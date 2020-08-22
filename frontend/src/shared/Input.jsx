@@ -23,12 +23,13 @@ const inputReducer = (state, action) => {
 };
 
 export default function Input({
-  element, id, type, placeholder, rows, label, errorText, validators, onInput, value: propValue,
+  element, id, type, placeholder, rows, label, errorText,
+  validators, onInput, initialValue, initialValid,
 }) {
   const [inputState, dispatch] = useReducer(inputReducer, {
-    value: propValue || '',
+    value: initialValue || '',
     isTouched: false,
-    isValid: false,
+    isValid: initialValid || false,
   });
 
   const intl = useIntl().formatMessage;

@@ -1,4 +1,4 @@
-import React, { useCallback, useReducer } from 'react';
+import React from 'react';
 import {
   Button, Form, Container,
 } from 'react-bootstrap';
@@ -6,34 +6,11 @@ import {
 import { useIntl } from 'react-intl';
 import Input from '../../shared/Input';
 import { VALIDATOR_REQUIRE, VALIDATOR_MINLENGTH } from '../../utils/validator';
-
-const formReducer = (state, action) => {
-  let formIsValid = true;
-  switch (action.type) {
-    case 'INPUT_CHANGE':
-      Object.keys(state.inputs).forEach((inputId) => {
-        if (inputId === action.inputId) {
-          formIsValid = formIsValid && action.isValid;
-        } else {
-          formIsValid = formIsValid && state.inputs[inputId].isValid;
-        }
-      });
-      return {
-        ...state,
-        inputs: {
-          ...state.inputs,
-          [action.inputId]: { value: action.value, isValid: action.isValid },
-        },
-        isValid: formIsValid,
-      };
-    default:
-      return state;
-  }
-};
+import useForm from '../../shared/hooks/useForm';
 
 export default function NewPlace() {
-  const [formState, dispatch] = useReducer(formReducer, {
-    inputs: {
+  const [formState, inputHandler] = useForm(
+    {
       dropdown: {
         value: '',
         isValid: false,
@@ -50,18 +27,8 @@ export default function NewPlace() {
         value: [],
         isValid: false,
       },
-    },
-    isValid: false,
-  });
-
-  const inputHandler = useCallback((id, value, isValid) => {
-    dispatch({
-      type: 'INPUT_CHANGE',
-      value,
-      isValid,
-      inputId: id,
-    });
-  }, []);
+    }, false,
+  );
 
   const intl = useIntl().formatMessage;
 

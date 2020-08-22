@@ -5,6 +5,7 @@ import { useIntl } from 'react-intl';
 
 import Input from '../../shared/Input';
 import { VALIDATOR_REQUIRE, VALIDATOR_MINLENGTH } from '../../utils/validator';
+import useForm from '../../shared/hooks/useForm';
 
 const ITEMS = [
   {
@@ -39,25 +40,67 @@ const ITEMS = [
 export default function EditItem() {
   const intl = useIntl().formatMessage;
   const { itemId } = useParams();
+
   const foundItem = ITEMS.find((item) => item.id === itemId);
-  // console.log(foundItem);
+
+  const [formState, inputHandler] = useForm(
+    {
+      type: {
+        value: foundItem.type,
+        isValid: true,
+      },
+      title: {
+        value: foundItem.title,
+        isValid: true,
+      },
+      description: {
+        value: foundItem.description,
+        isValid: true,
+      },
+      tags: {
+        value: foundItem.tags,
+        isValid: true,
+      },
+    },
+    true,
+  );
 
   if (!foundItem) {
     return (
       <h2>Not Found</h2>
     );
   }
+
+  const submitHandler = (event) => {
+    event.preventDefault();
+    let splittedTags = formState.inputs.tags.value;
+    if (typeof splittedTags === 'string') {
+      splittedTags = splittedTags.split(',').map((tag) => tag.trim());
+    }
+
+    // send to back later
+    // eslint-disable-next-line no-console
+    console.log({
+      ...formState.inputs,
+      tags: {
+        value: splittedTags,
+        isValid: true,
+      },
+    });
+  };
+
   return (
     <Container style={{ maxWidth: '600px' }}>
-      <Form>
+      <Form onSubmit={submitHandler}>
         <Input
           id="dropdown"
           element="select"
           label={intl({ id: 'NewItem.Collection' })}
           validators={[VALIDATOR_REQUIRE()]}
           errorText={intl({ id: 'NewItem.CollectionError' })}
-          onInput={() => { }}
-          value={foundItem.type}
+          onInput={inputHandler}
+          initialValue={formState.inputs.type.value}
+          initialValid={formState.inputs.type.isValid}
         />
         <Input
           id="title"
@@ -66,8 +109,9 @@ export default function EditItem() {
           label={intl({ id: 'NewItem.Title' })}
           validators={[VALIDATOR_REQUIRE()]}
           errorText={intl({ id: 'NewItem.TitleError' })}
-          onInput={() => { }}
-          value={foundItem.title}
+          onInput={inputHandler}
+          initialValue={formState.inputs.title.value}
+          initialValid={formState.inputs.title.isValid}
         />
         <Input
           id="description"
@@ -75,8 +119,9 @@ export default function EditItem() {
           label={intl({ id: 'NewItem.Description' })}
           validators={[VALIDATOR_MINLENGTH(5)]}
           errorText={intl({ id: 'NewItem.DescriptionError' })}
-          onInput={() => { }}
-          value={foundItem.description}
+          onInput={inputHandler}
+          initialValue={formState.inputs.description.value}
+          initialValid={formState.inputs.description.isValid}
         />
         <Input
           id="tags"
@@ -84,14 +129,15 @@ export default function EditItem() {
           label={intl({ id: 'NewItem.Tags' })}
           validators={[VALIDATOR_REQUIRE()]}
           errorText={intl({ id: 'NewItem.TagsError' })}
-          onInput={() => { }}
-          value={foundItem.tags}
+          onInput={inputHandler}
+          initialValue={formState.inputs.tags.value}
+          initialValid={formState.inputs.tags.isValid}
         />
         <Button
           type="submit"
           variant="info"
           block
-          disabled
+          disabled={!formState.isValid}
         >
           {intl({ id: 'NewItem.Submit' })}
         </Button>
