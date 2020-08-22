@@ -1,5 +1,6 @@
 import React, { useReducer, useEffect } from 'react';
 import { FormControl, Form, Alert } from 'react-bootstrap';
+import { useIntl } from 'react-intl';
 import { validate } from '../utils/validator';
 
 const inputReducer = (state, action) => {
@@ -30,6 +31,7 @@ export default function Input({
     isValid: false,
   });
 
+  const intl = useIntl().formatMessage;
   const { value, isValid } = inputState;
 
   useEffect(() => {
@@ -69,11 +71,11 @@ export default function Input({
           onBlur={touchHandler}
           value={inputState.value}
         >
-          <option value=""> -- select a collection -- </option>
-          <option value="film">Film</option>
-          <option value="book">Book</option>
-          <option value="game">Video Game</option>
-          <option value="food">Food</option>
+          <option value="">{intl({ id: 'NewItem.Select' })}</option>
+          <option value="film">{intl({ id: 'NewItem.Film' })}</option>
+          <option value="book">{intl({ id: 'NewItem.Book' })}</option>
+          <option value="game">{intl({ id: 'NewItem.Game' })}</option>
+          <option value="food">{intl({ id: 'NewItem.Food' })}</option>
         </FormControl>
       </Form.Group>
     );

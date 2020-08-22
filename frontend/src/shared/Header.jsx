@@ -23,13 +23,13 @@ export default function Header({ selectedLocale, onLocaleChange }) {
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
           <Nav.Link as={NavLink} exact to="/">
-            <FormattedMessage id="header.home" />
+            <FormattedMessage id="Header.Home" />
           </Nav.Link>
           <Nav.Link as={NavLink} to="/u1/items">
-            <FormattedMessage id="header.myItems" />
+            <FormattedMessage id="Header.MyItems" />
           </Nav.Link>
           <Nav.Link as={NavLink} to="/items/add">
-            <FormattedMessage id="header.addItem" />
+            <FormattedMessage id="Header.AddItem" />
           </Nav.Link>
         </Nav>
 
@@ -41,11 +41,11 @@ export default function Header({ selectedLocale, onLocaleChange }) {
         <Form inline>
           <FormControl
             type="text"
-            placeholder={intl.formatMessage({ id: 'header.searchPlaceholder' })}
+            placeholder={intl.formatMessage({ id: 'Header.SearchPlaceholder' })}
             className="mr-sm-2"
           />
           <Button variant="outline-info">
-            <FormattedMessage id="header.searchBtn" />
+            <FormattedMessage id="Header.SearchBtn" />
           </Button>
         </Form>
       </Navbar.Collapse>

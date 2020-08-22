@@ -3,6 +3,7 @@ import {
   Button, Form, Container,
 } from 'react-bootstrap';
 
+import { useIntl } from 'react-intl';
 import Input from '../../shared/Input';
 import { VALIDATOR_REQUIRE, VALIDATOR_MINLENGTH } from '../../utils/validator';
 
@@ -62,6 +63,8 @@ export default function NewPlace() {
     });
   }, []);
 
+  const intl = useIntl().formatMessage;
+
   const submitHandler = (event) => {
     event.preventDefault();
     const splittedTags = formState.inputs.tags.value.split(',').map((tag) => tag.trim());
@@ -83,34 +86,34 @@ export default function NewPlace() {
         <Input
           id="dropdown"
           element="select"
-          label="Collection"
+          label={intl({ id: 'NewItem.Collection' })}
           validators={[VALIDATOR_REQUIRE()]}
-          errorText="Please choose a collection"
+          errorText={intl({ id: 'NewItem.CollectionError' })}
           onInput={inputHandler}
         />
         <Input
           id="title"
           element="input"
           type="text"
-          label="Title"
+          label={intl({ id: 'NewItem.Title' })}
           validators={[VALIDATOR_REQUIRE()]}
-          errorText="Please enter a valid title"
+          errorText={intl({ id: 'NewItem.TitleError' })}
           onInput={inputHandler}
         />
         <Input
           id="description"
           element="textarea"
-          label="Description"
+          label={intl({ id: 'NewItem.Description' })}
           validators={[VALIDATOR_MINLENGTH(5)]}
-          errorText="Please enter a description (at least 5 characters)"
+          errorText={intl({ id: 'NewItem.DescriptionError' })}
           onInput={inputHandler}
         />
         <Input
           id="tags"
           element="input"
-          label="Tags (comma separated)"
+          label={intl({ id: 'NewItem.Tags' })}
           validators={[VALIDATOR_REQUIRE()]}
-          errorText="Please enter at least 1 tag"
+          errorText={intl({ id: 'NewItem.TagsError' })}
           onInput={inputHandler}
         />
         <Button
@@ -119,7 +122,7 @@ export default function NewPlace() {
           block
           disabled={!formState.isValid}
         >
-          Submit
+          {intl({ id: 'NewItem.Submit' })}
         </Button>
       </Form>
     </Container>

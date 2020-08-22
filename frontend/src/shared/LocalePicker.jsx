@@ -8,10 +8,10 @@ export default function LocalePicker({ selectedLocale, onLocaleChange }) {
     <Form onChange={onLocaleChange}>
       <Form.Control defaultValue={selectedLocale} as="select" custom>
         <option value="en">
-          {intl({ id: 'localePicker.enLang' })}
+          {intl({ id: 'LocalePicker.EnLang' })}
         </option>
         <option value="ru">
-          {intl({ id: 'localePicker.ruLang' })}
+          {intl({ id: 'LocalePicker.RuLang' })}
         </option>
       </Form.Control>
     </Form>
