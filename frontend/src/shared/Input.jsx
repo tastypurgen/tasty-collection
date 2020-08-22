@@ -23,10 +23,10 @@ const inputReducer = (state, action) => {
 };
 
 export default function Input({
-  element, id, type, placeholder, rows, label, errorText, validators, onInput,
+  element, id, type, placeholder, rows, label, errorText, validators, onInput, value: propValue,
 }) {
   const [inputState, dispatch] = useReducer(inputReducer, {
-    value: '',
+    value: propValue || '',
     isTouched: false,
     isValid: false,
   });

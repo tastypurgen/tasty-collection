@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import ItemList from '../../component/ItemList';
+import ItemList from '../component/ItemList';
 
 const ITEMS = [
   {

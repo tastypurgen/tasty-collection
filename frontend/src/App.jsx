@@ -14,6 +14,7 @@ import UserItems from './items/pages/UserItems';
 import en from './shared/localization/en.json';
 import ru from './shared/localization/ru.json';
 import locales from './shared/localization/locales';
+import EditItem from './items/pages/EditItem';
 
 const messages = {
   [locales.EN]: en,
@@ -48,6 +49,9 @@ export default function App() {
           </Route>
           <Route exact path="/items/add">
             <NewItem />
+          </Route>
+          <Route exact path="/items/:itemId">
+            <EditItem />
           </Route>
           <Redirect to="/" />
         </Switch>

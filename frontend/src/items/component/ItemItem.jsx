@@ -2,7 +2,6 @@ import React from 'react';
 import { Card, Button } from 'react-bootstrap';
 import { useIntl } from 'react-intl';
 
-import './ItemItem.scss';
 import ItemTags from './ItemTags';
 
 export default function ItemItem({
