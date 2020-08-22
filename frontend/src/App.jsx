@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   BrowserRouter as Router,
   Route,
@@ -20,18 +20,24 @@ const messages = {
   [locales.RU]: ru,
 };
 
-const defaultLocale = locales.RU;
-
 export default function App() {
+  const [locale, setLocale] = useState(localStorage.LOCALE || locales.EN);
+
   return (
     <Router>
 
       <IntlProvider
-        messages={messages[defaultLocale]}
-        locale={defaultLocale}
-        defaultLocale={defaultLocale}
+        messages={messages[locale]}
+        locale={locale}
+        defaultLocale={locale}
       >
-        <Header />
+        <Header
+          selectedLocale={locale}
+          onLocaleChange={(event) => {
+            localStorage.LOCALE = event.target.value;
+            setLocale(event.target.value);
+          }}
+        />
 
         <Switch>
           <Route exact path="/">

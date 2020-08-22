@@ -4,10 +4,11 @@ import {
 } from 'react-bootstrap';
 import { NavLink, Link } from 'react-router-dom';
 import { useIntl, FormattedMessage } from 'react-intl';
+import LocalePicker from './LocalePicker';
 
 const assetsPath = `${process.env.PUBLIC_URL}/assets`;
 
-export default function Header() {
+export default function Header({ selectedLocale, onLocaleChange }) {
   const intl = useIntl();
 
   return (
@@ -17,6 +18,7 @@ export default function Header() {
           <Image src={`${assetsPath}/logo.png`} style={{ width: '150px' }} />
         </Navbar.Brand>
       </Link>
+
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
@@ -30,8 +32,18 @@ export default function Header() {
             <FormattedMessage id="header.addItem" />
           </Nav.Link>
         </Nav>
+
+        <LocalePicker
+          selectedLocale={selectedLocale}
+          onLocaleChange={onLocaleChange}
+        />
+
         <Form inline>
-          <FormControl type="text" placeholder={intl.formatMessage({ id: 'header.searchPlaceholder' })} className="mr-sm-2" />
+          <FormControl
+            type="text"
+            placeholder={intl.formatMessage({ id: 'header.searchPlaceholder' })}
+            className="mr-sm-2"
+          />
           <Button variant="outline-info">
             <FormattedMessage id="header.searchBtn" />
           </Button>

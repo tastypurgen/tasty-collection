@@ -3,5 +3,7 @@
   "header.myItems": "Моя коллекция",
   "header.addItem": "Добавить",
   "header.searchPlaceholder": "Поиск...",
-  "header.searchBtn": "Поиск"
+  "header.searchBtn": "Поиск",
+  "localePicker.enLang": "English",
+  "localePicker.ruLang": "Русский"
 }

@@ -1,7 +1,9 @@
 {
   "header.home": "home",
-  "header.myItems": "My Items",
+  "header.myItems": "My Collection",
   "header.addItem": "Add Item",
   "header.searchPlaceholder": "Search...",
-  "header.searchBtn": "Search"
+  "header.searchBtn": "Search",
+  "localePicker.enLang": "English",
+  "localePicker.ruLang": "Русский"
 }
