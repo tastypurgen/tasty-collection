@@ -5,6 +5,7 @@ import {
 import { NavLink, Link } from 'react-router-dom';
 import { useIntl, FormattedMessage } from 'react-intl';
 import LocalePicker from './LocalePicker';
+import ThemePicker from './ThemePicker';
 
 const assetsPath = `${process.env.PUBLIC_URL}/assets`;
 
@@ -12,7 +13,7 @@ export default function Header({ selectedLocale, onLocaleChange }) {
   const intl = useIntl();
 
   return (
-    <Navbar className="mb-3" bg="dark" variant="dark" expand="md">
+    <Navbar className="mb-3" bg="dark" variant="dark" expand="lg">
       <Link to="/">
         <Navbar.Brand>
           <Image src={`${assetsPath}/logo.png`} style={{ width: '150px' }} />
@@ -32,6 +33,8 @@ export default function Header({ selectedLocale, onLocaleChange }) {
             <FormattedMessage id="Header.AddItem" />
           </Nav.Link>
         </Nav>
+
+        <ThemePicker />
 
         <LocalePicker
           selectedLocale={selectedLocale}
