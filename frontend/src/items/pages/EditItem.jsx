@@ -67,32 +67,28 @@ export default function EditItem() {
   const foundItem = ITEMS.find((item) => item.id === itemId);
 
   useEffect(() => {
-    setFormData({
-      type: {
-        value: foundItem.type,
-        isValid: false,
-      },
-      title: {
-        value: foundItem.title,
-        isValid: false,
-      },
-      description: {
-        value: foundItem.description,
-        isValid: false,
-      },
-      tags: {
-        value: foundItem.tags,
-        isValid: false,
-      },
-    });
+    if (foundItem) {
+      setFormData({
+        type: {
+          value: foundItem.type,
+          isValid: true,
+        },
+        title: {
+          value: foundItem.title,
+          isValid: true,
+        },
+        description: {
+          value: foundItem.description,
+          isValid: true,
+        },
+        tags: {
+          value: foundItem.tags,
+          isValid: true,
+        },
+      }, true);
+    }
     setIsLoading(false);
   }, [setFormData, foundItem]);
-
-  if (isLoading) {
-    return (
-      <h2>Not Found</h2>
-    );
-  }
 
   const submitHandler = (event) => {
     event.preventDefault();
@@ -114,7 +110,15 @@ export default function EditItem() {
 
   if (!foundItem) {
     return (
-      <div>Loading...</div>
+      <div className="text-center">
+        <h2>Not Found</h2>
+      </div>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <h2>Loading...</h2>
     );
   }
 

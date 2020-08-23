@@ -1,14 +1,19 @@
 import React from 'react';
 
-import { Container, Row, Col } from 'react-bootstrap';
+import {
+  Container, Row, Col, Button,
+} from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import ItemItem from './ItemItem';
 
 export default function ItemList({ items }) {
   if (!items || items.length === 0) {
     return (
-      <div>
+      <div className="text-center">
         <h2>No items found</h2>
-        <button type="button">Add item</button>
+        <Link to="/items/add">
+          <Button variant="info" type="button">Add item</Button>
+        </Link>
       </div>
     );
   }
