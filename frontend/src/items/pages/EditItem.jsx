@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Container, Form, Button } from 'react-bootstrap';
 import { useIntl } from 'react-intl';
@@ -38,34 +38,57 @@ const ITEMS = [
 ];
 
 export default function EditItem() {
+  const [isLoading, setIsLoading] = useState(true);
   const intl = useIntl().formatMessage;
   const { itemId } = useParams();
 
-  const foundItem = ITEMS.find((item) => item.id === itemId);
-
-  const [formState, inputHandler] = useForm(
+  const [formState, inputHandler, setFormData] = useForm(
     {
       type: {
+        value: '',
+        isValid: false,
+      },
+      title: {
+        value: '',
+        isValid: false,
+      },
+      description: {
+        value: '',
+        isValid: false,
+      },
+      tags: {
+        value: '',
+        isValid: false,
+      },
+    },
+    false,
+  );
+
+  const foundItem = ITEMS.find((item) => item.id === itemId);
+
+  useEffect(() => {
+    setFormData({
+      type: {
         value: foundItem.type,
-        isValid: true,
+        isValid: false,
       },
       title: {
         value: foundItem.title,
-        isValid: true,
+        isValid: false,
       },
       description: {
         value: foundItem.description,
-        isValid: true,
+        isValid: false,
       },
       tags: {
         value: foundItem.tags,
-        isValid: true,
+        isValid: false,
       },
-    },
-    true,
-  );
+    });
+    setIsLoading(false);
+  }, [setFormData, foundItem]);
 
-  if (!foundItem) {
+  if (isLoading) {
     return (
       <h2>Not Found</h2>
     );
@@ -88,6 +111,12 @@ export default function EditItem() {
       },
     });
   };
+
+  if (!foundItem) {
+    return (
+      <div>Loading...</div>
+    );
+  }
 
   return (
     <Container style={{ maxWidth: '600px' }}>
