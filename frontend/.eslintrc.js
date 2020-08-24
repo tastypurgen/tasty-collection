@@ -24,5 +24,6 @@ module.exports = {
   rules: {
     'react/prop-types': 'off',
     'react/jsx-one-expression-per-line': 'off',
+    'import/prefer-default-export': 'off',
   },
 };

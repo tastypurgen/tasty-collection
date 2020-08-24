@@ -1,15 +1,18 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   Navbar, Nav, Form, FormControl, Button, Image,
 } from 'react-bootstrap';
 import { NavLink, Link } from 'react-router-dom';
 import { useIntl, FormattedMessage } from 'react-intl';
+
 import LocalePicker from './LocalePicker';
 import ThemePicker from './ThemePicker';
+import { AuthContext } from '../context/AuthContext';
 
 const assetsPath = `${process.env.PUBLIC_URL}/assets`;
 
 export default function Header({ selectedLocale, onLocaleChange }) {
+  const auth = useContext(AuthContext);
   const intl = useIntl();
 
   return (
@@ -22,17 +25,19 @@ export default function Header({ selectedLocale, onLocaleChange }) {
 
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
-        <Nav className="mr-auto">
-          <Nav.Link as={NavLink} exact to="/">
-            <FormattedMessage id="Header.Home" />
-          </Nav.Link>
-          <Nav.Link as={NavLink} to="/u1/items">
-            <FormattedMessage id="Header.MyItems" />
-          </Nav.Link>
-          <Nav.Link as={NavLink} to="/items/add">
-            <FormattedMessage id="Header.AddItem" />
-          </Nav.Link>
-        </Nav>
+        {auth.isLoggedIn && (
+          <Nav className="mr-auto">
+            <Nav.Link as={NavLink} exact to="/">
+              <FormattedMessage id="Header.Home" />
+            </Nav.Link>
+            <Nav.Link as={NavLink} to="/u1/items">
+              <FormattedMessage id="Header.MyItems" />
+            </Nav.Link>
+            <Nav.Link as={NavLink} to="/items/add">
+              <FormattedMessage id="Header.AddItem" />
+            </Nav.Link>
+          </Nav>
+        )}
 
         <ThemePicker />
 
@@ -50,22 +55,35 @@ export default function Header({ selectedLocale, onLocaleChange }) {
           <Button variant="outline-info">
             <FormattedMessage id="Header.SearchBtn" />
           </Button>
-
-          <Link to="/signin">
-            <Button variant="outline-light">
-              {/* <FormattedMessage id="Header.SearchBtn" /> */}
-              Sign In
-            </Button>
-          </Link>
-
-          <Link to="/signup">
-            <Button variant="outline-light">
-              {/* <FormattedMessage id="Header.SearchBtn" /> */}
-              Sign Up
-            </Button>
-          </Link>
-
         </Form>
+
+        {!auth.isLoggedIn && (
+          <div>
+            <Link to="/signin">
+              <Button variant="outline-light">
+                {/* <FormattedMessage id="Header.SearchBtn" /> */}
+                Sign In
+              </Button>
+            </Link>
+            <Link to="/signup">
+              <Button variant="outline-light">
+                {/* <FormattedMessage id="Header.SearchBtn" /> */},
+                Sign Up
+              </Button>
+            </Link>
+          </div>
+        )}
+
+        {auth.isLoggedIn && (
+
+          <Link to="/logout">
+            <Button variant="outline-light">
+              {/* <FormattedMessage id="Header.SearchBtn" /> */},
+              Logout
+            </Button>
+          </Link>
+        )}
+
       </Navbar.Collapse>
     </Navbar>
   );

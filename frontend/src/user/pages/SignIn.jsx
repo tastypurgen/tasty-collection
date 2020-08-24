@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   Container, Form, Button, Jumbotron,
 } from 'react-bootstrap';
@@ -7,8 +7,10 @@ import { useIntl } from 'react-intl';
 import Input from '../../shared/components/Input';
 import useForm from '../../shared/hooks/useForm';
 import { VALIDATOR_REQUIRE, VALIDATOR_EMAIL } from '../../utils/validator';
+import { AuthContext } from '../../shared/context/AuthContext';
 
 export default function SignUp() {
+  const auth = useContext(AuthContext);
   const intl = useIntl().formatMessage;
 
   const [formState, inputHandler] = useForm(
@@ -29,6 +31,7 @@ export default function SignUp() {
     event.preventDefault();
     // eslint-disable-next-line no-console
     console.log(formState.inputs);
+    auth.login();
   };
 
   return (

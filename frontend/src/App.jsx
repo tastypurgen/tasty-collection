@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import {
   BrowserRouter as Router,
   Route,
@@ -17,6 +17,7 @@ import locales from './shared/localization/locales';
 import EditItem from './items/pages/EditItem';
 import SignUp from './user/pages/SignUp';
 import SignIn from './user/pages/SignIn';
+import { AuthContext } from './shared/context/AuthContext';
 
 const messages = {
   [locales.EN]: en,
@@ -25,46 +26,79 @@ const messages = {
 
 export default function App() {
   const [locale, setLocale] = useState(localStorage.LOCALE || locales.EN);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const login = useCallback(() => {
+    setIsLoggedIn(true);
+  }, []);
+
+  const logout = useCallback(() => {
+    setIsLoggedIn(false);
+  }, []);
+
+  let routes;
+  if (isLoggedIn) {
+    routes = (
+      <Switch>
+        <Route exact path="/">
+          <Users />
+        </Route>
+        <Route exact path="/:userId/items">
+          <UserItems />
+        </Route>
+        <Route exact path="/items/add">
+          <NewItem />
+        </Route>
+        <Route exact path="/items/:itemId">
+          <EditItem />
+        </Route>
+        <Redirect to="/" />
+      </Switch>
+    );
+  } else {
+    routes = (
+      <Switch>
+        <Route exact path="/">
+          <Users />
+        </Route>
+        <Route exact path="/:userId/items">
+          <UserItems />
+        </Route>
+        <Route exact path="/items/:itemId">
+          <EditItem />
+        </Route>
+        <Route exact path="/signup">
+          <SignUp />
+        </Route>
+        <Route exact path="/signin">
+          <SignIn />
+        </Route>
+        <Redirect to="/" />
+      </Switch>
+    );
+  }
 
   return (
-    <Router>
-      <IntlProvider
-        messages={messages[locale]}
-        locale={locale}
-        defaultLocale={locale}
-      >
+    <AuthContext.Provider value={{ isLoggedIn, login, logout }}>
+      <Router>
+        <IntlProvider
+          messages={messages[locale]}
+          locale={locale}
+          defaultLocale={locale}
+        >
 
-        <Header
-          selectedLocale={locale}
-          onLocaleChange={(event) => {
-            localStorage.LOCALE = event.target.value;
-            setLocale(event.target.value);
-          }}
-        />
+          <Header
+            selectedLocale={locale}
+            onLocaleChange={(event) => {
+              localStorage.LOCALE = event.target.value;
+              setLocale(event.target.value);
+            }}
+          />
 
-        <Switch>
-          <Route exact path="/">
-            <Users />
-          </Route>
-          <Route exact path="/:userId/items">
-            <UserItems />
-          </Route>
-          <Route exact path="/items/add">
-            <NewItem />
-          </Route>
-          <Route exact path="/items/:itemId">
-            <EditItem />
-          </Route>
-          <Route exact path="/signup">
-            <SignUp />
-          </Route>
-          <Route exact path="/signin">
-            <SignIn />
-          </Route>
-          <Redirect to="/" />
-        </Switch>
+          {routes}
 
-      </IntlProvider>
-    </Router>
+        </IntlProvider>
+      </Router>
+    </AuthContext.Provider>
   );
 }
