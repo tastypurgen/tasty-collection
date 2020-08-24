@@ -10,6 +10,7 @@ const ITEMS = [
     description: 'Exciting book!',
     image: 'https://images-na.ssl-images-amazon.com/images/I/91SZSW8qSsL.jpg',
     tags: ['interesting', 'book', 'dystopia'],
+    likes: 3,
     creatorId: 'u1',
   },
   {
@@ -19,6 +20,7 @@ const ITEMS = [
     description: 'My favorite book',
     image: 'https://images-na.ssl-images-amazon.com/images/I/41eDhPsmjbL._SX323_BO1,204,203,200_.jpg',
     tags: ['book', 'fiction'],
+    likes: 10,
     creatorId: 'u2',
   },
   {
@@ -28,6 +30,7 @@ const ITEMS = [
     description: 'The Shawshank Redemption is a 1994 American drama film written and directed by Frank Darabont, based on the 1982 Stephen King novella',
     image: 'https://images-na.ssl-images-amazon.com/images/I/51zUbui%2BgbL.jpg',
     tags: ['drama', 'interesting', 'film', 'fiction'],
+    likes: 6,
     creatorId: 'u1',
   },
 ];

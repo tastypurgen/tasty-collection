@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { Container, Form, Button } from 'react-bootstrap';
 import { useIntl } from 'react-intl';
 
-import Input from '../../shared/Input';
+import Input from '../../shared/components/Input';
 import { VALIDATOR_REQUIRE, VALIDATOR_MINLENGTH } from '../../utils/validator';
 import useForm from '../../shared/hooks/useForm';
 
@@ -39,6 +39,7 @@ const ITEMS = [
 
 export default function EditItem() {
   const [isLoading, setIsLoading] = useState(true);
+
   const intl = useIntl().formatMessage;
   const { itemId } = useParams();
 

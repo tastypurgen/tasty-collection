@@ -50,6 +50,21 @@ export default function Header({ selectedLocale, onLocaleChange }) {
           <Button variant="outline-info">
             <FormattedMessage id="Header.SearchBtn" />
           </Button>
+
+          <Link to="/signin">
+            <Button variant="outline-light">
+              {/* <FormattedMessage id="Header.SearchBtn" /> */}
+              Sign In
+            </Button>
+          </Link>
+
+          <Link to="/signup">
+            <Button variant="outline-light">
+              {/* <FormattedMessage id="Header.SearchBtn" /> */}
+              Sign Up
+            </Button>
+          </Link>
+
         </Form>
       </Navbar.Collapse>
     </Navbar>

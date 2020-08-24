@@ -1,7 +1,7 @@
 import React, { useReducer, useEffect } from 'react';
 import { FormControl, Form, Alert } from 'react-bootstrap';
 import { useIntl } from 'react-intl';
-import { validate } from '../utils/validator';
+import { validate } from '../../utils/validator';
 
 const inputReducer = (state, action) => {
   switch (action.type) {
