@@ -61,25 +61,21 @@ export default function Header({ selectedLocale, onLocaleChange }) {
           <div>
             <Link to="/signin">
               <Button variant="outline-light">
-                {/* <FormattedMessage id="Header.SearchBtn" /> */}
-                Sign In
+                <FormattedMessage id="Header.SignIn" />
               </Button>
             </Link>
             <Link to="/signup">
               <Button variant="outline-light">
-                {/* <FormattedMessage id="Header.SearchBtn" /> */},
-                Sign Up
+                <FormattedMessage id="Header.SignUp" />
               </Button>
             </Link>
           </div>
         )}
 
         {auth.isLoggedIn && (
-
           <Link to="/logout">
-            <Button variant="outline-light">
-              {/* <FormattedMessage id="Header.SearchBtn" /> */},
-              Logout
+            <Button onClick={auth.logout} variant="outline-light">
+              <FormattedMessage id="Header.Logout" />
             </Button>
           </Link>
         )}
