@@ -9,7 +9,7 @@ import { IntlProvider } from 'react-intl';
 
 import Users from './user/pages/Users';
 import NewItem from './items/pages/NewItem';
-import Header from './shared/Header';
+import Header from './shared/components/Header';
 import UserItems from './items/pages/UserItems';
 import en from './shared/localization/en.json';
 import ru from './shared/localization/ru.json';

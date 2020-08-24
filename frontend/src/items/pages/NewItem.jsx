@@ -4,7 +4,7 @@ import {
 } from 'react-bootstrap';
 
 import { useIntl } from 'react-intl';
-import Input from '../../shared/Input';
+import Input from '../../shared/components/Input';
 import { VALIDATOR_REQUIRE, VALIDATOR_MINLENGTH } from '../../utils/validator';
 import useForm from '../../shared/hooks/useForm';
 
