@@ -21,6 +21,9 @@
   "NewItem.TagsError": "Добавьте минимум один тег",
   "NewItem.Submit": "Отправить",
   "ItemItem.Edit": "Редактировать",
+  "ItemItem.ModalTitle": "Подтверждение удаления",
+  "ItemItem.ModalBody": "Вы уверенны? Действие не может быть отменено",
+  "ItemItem.Cancel": "Отмена",
   "ItemItem.Delete": "Удалить",
   "UserItem.Item": "шт.",
   "UserItem.Items": "шт."
