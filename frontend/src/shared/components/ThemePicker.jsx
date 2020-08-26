@@ -26,7 +26,7 @@ export default function ThemePicker() {
         </Helmet>
       )}
 
-      <input checked={darkTheme} type="checkbox" className="checkbox" id="check" />
+      <input defaultChecked={darkTheme} type="checkbox" className="checkbox" id="check" />
       <label className="label" htmlFor="check">
         <i className="fas fa-moon" />
         <i className="fas fa-sun" />

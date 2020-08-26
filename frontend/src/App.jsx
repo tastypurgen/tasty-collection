@@ -18,6 +18,7 @@ import EditItem from './items/pages/EditItem';
 import SignUp from './user/pages/SignUp';
 import SignIn from './user/pages/SignIn';
 import { AuthContext } from './shared/context/AuthContext';
+import Footer from './shared/components/Footer';
 
 const messages = {
   [locales.EN]: en,
@@ -36,9 +37,9 @@ export default function App() {
     setIsLoggedIn(false);
   }, []);
 
-  let routes;
+  let ROUTES;
   if (isLoggedIn) {
-    routes = (
+    ROUTES = (
       <Switch>
         <Route exact path="/">
           <Users />
@@ -56,7 +57,7 @@ export default function App() {
       </Switch>
     );
   } else {
-    routes = (
+    ROUTES = (
       <Switch>
         <Route exact path="/">
           <Users />
@@ -95,7 +96,9 @@ export default function App() {
             }}
           />
 
-          {routes}
+          {ROUTES}
+
+          <Footer />
 
         </IntlProvider>
       </Router>

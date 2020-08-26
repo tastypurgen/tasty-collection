@@ -5,18 +5,16 @@ import {
 import { NavLink, Link } from 'react-router-dom';
 import { useIntl, FormattedMessage } from 'react-intl';
 
-import LocalePicker from './LocalePicker';
-import ThemePicker from './ThemePicker';
 import { AuthContext } from '../context/AuthContext';
 
 const assetsPath = `${process.env.PUBLIC_URL}/assets`;
 
-export default function Header({ selectedLocale, onLocaleChange }) {
+export default function Header() {
   const auth = useContext(AuthContext);
   const intl = useIntl();
 
   return (
-    <Navbar className="mb-3" bg="dark" variant="dark" expand="lg">
+    <Navbar bg="dark" variant="dark" expand="lg">
       <Link to="/">
         <Navbar.Brand>
           <Image src={`${assetsPath}/logo.png`} style={{ width: '150px' }} />
@@ -39,14 +37,7 @@ export default function Header({ selectedLocale, onLocaleChange }) {
           </Nav>
         )}
 
-        <ThemePicker />
-
-        <LocalePicker
-          selectedLocale={selectedLocale}
-          onLocaleChange={onLocaleChange}
-        />
-
-        <Form inline>
+        <Form className="mr-auto" inline>
           <FormControl
             type="text"
             placeholder={intl.formatMessage({ id: 'Header.SearchPlaceholder' })}
@@ -60,12 +51,12 @@ export default function Header({ selectedLocale, onLocaleChange }) {
         {!auth.isLoggedIn && (
           <div>
             <Link to="/signin">
-              <Button variant="outline-light">
+              <Button className="ml-2" variant="outline-light">
                 <FormattedMessage id="Header.SignIn" />
               </Button>
             </Link>
             <Link to="/signup">
-              <Button variant="outline-light">
+              <Button className="ml-2" variant="outline-light">
                 <FormattedMessage id="Header.SignUp" />
               </Button>
             </Link>
@@ -73,7 +64,7 @@ export default function Header({ selectedLocale, onLocaleChange }) {
         )}
 
         {auth.isLoggedIn && (
-          <Link to="/logout">
+          <Link className="ml-2" to="/logout">
             <Button onClick={auth.logout} variant="outline-light">
               <FormattedMessage id="Header.Logout" />
             </Button>
