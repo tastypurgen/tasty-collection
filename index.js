@@ -10,6 +10,14 @@ const app = express();
 
 app.use('/api/items', itemsRoutes);
 // app.use(usersRoutes);
+
+app.use((error, req, res, next) => {
+  if (!res.headerSent) next(error);
+
+  res.status(error.code || 500);
+  res.json({ message: error.message || 'Unknown message' });
+});
+
 mongoose.connect(process.env.DB, {
   useNewUrlParser: true,
   useUnifiedTopology: true,

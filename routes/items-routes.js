@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /* eslint-disable no-console */
 const express = require('express');
 
@@ -37,9 +38,25 @@ const ITEMS = [
 ];
 
 router.get('/:itemId', (req, res) => {
-  console.log('GET items /');
   const { itemId } = req.params;
   const item = ITEMS.find((key) => key.id === itemId);
+
+  if (!item) {
+    const error = new Error('Could not found an item by ID');
+    error.code = 404;
+    throw error;
+  } else res.json(item);
+});
+
+router.get('/user/:userId', (req, res, next) => {
+  const { userId } = req.params;
+  const item = ITEMS.find((key) => key.creatorId === userId);
+
+  if (!item) {
+    const error = new Error('Could not found an item by USER ID');
+    error.code = 404;
+    return next(error);
+  }
   res.json(item);
 });
 
