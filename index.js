@@ -7,6 +7,7 @@ const itemsRoutes = require('./routes/items-routes');
 // const usersRoutes = require('./routes/users-routes');
 
 const app = express();
+app.use(express.json());
 
 app.use('/api/items', itemsRoutes);
 // app.use(usersRoutes);

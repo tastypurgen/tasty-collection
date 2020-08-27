@@ -1,3 +1,5 @@
+const { v4: uuid } = require('uuid');
+
 const HttpError = require('../models/http-error')
 
 const ITEMS = [
@@ -52,5 +54,16 @@ const getItemByUserId = (req, res, next) => {
   res.json(item);
 }
 
+const createItem = (req, res, next) => {
+  const { id, title, description, creatorId } = req.body;
+
+  const createdItem = { id: uuid(), title, description, creatorId };
+
+  ITEMS.push(createdItem)
+  res.status(201).json({ item: createdItem })
+  console.log(ITEMS)
+}
+
 exports.getItemById = getItemById;
 exports.getItemByUserId = getItemByUserId;
+exports.createItem = createItem;
