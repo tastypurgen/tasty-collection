@@ -2,6 +2,8 @@
 /* eslint-disable no-console */
 const express = require('express');
 
+const HttpError = require('../models/http-error')
+
 const router = express.Router();
 
 const ITEMS = [
@@ -41,11 +43,9 @@ router.get('/:itemId', (req, res) => {
   const { itemId } = req.params;
   const item = ITEMS.find((key) => key.id === itemId);
 
-  if (!item) {
-    const error = new Error('Could not found an item by ID');
-    error.code = 404;
-    throw error;
-  } else res.json(item);
+  if (!item) throw new HttpError('Could not found an item by ID', 404);
+
+  res.json(item);
 });
 
 router.get('/user/:userId', (req, res, next) => {
@@ -53,11 +53,11 @@ router.get('/user/:userId', (req, res, next) => {
   const item = ITEMS.find((key) => key.creatorId === userId);
 
   if (!item) {
-    const error = new Error('Could not found an item by USER ID');
-    error.code = 404;
-    return next(error);
+    return next(new HttpError('Could not found an item by USER ID', 404));
   }
   res.json(item);
 });
+
+
 
 module.exports = router;
