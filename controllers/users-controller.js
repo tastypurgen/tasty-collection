@@ -1,6 +1,7 @@
 const { v4: uuid } = require('uuid');
+const { validationResult } = require('express-validator');
 
-const HttpError = require('../models/http-error')
+const HttpError = require('../models/HttpError')
 
 let USERS = [
   {
@@ -28,6 +29,12 @@ const getAllUsers = (req, res, next) => {
 }
 
 const createUser = (req, res, next) => {
+  const validationErrors = validationResult(req)
+  if (!validationErrors.isEmpty()) {
+    console.log('validationErrors: ', validationErrors);
+    throw new HttpError('Please check entered data', 422)
+  }
+
   const { name, email, password } = req.body;
 
   const isExist = USERS.find(user => user.email === email)
@@ -47,10 +54,9 @@ const createUser = (req, res, next) => {
 
 const loginUser = (req, res, next) => {
   const { email, password } = req.body;
-  console.log('USERS: ', USERS);
 
   const foundUser = USERS.find(user => user.email === email)
-  console.log(foundUser)
+
   if (!foundUser || foundUser.password !== password) throw new HttpError('Wrong email or password', 401)
 
   res.json({ message: 'Signed in' })

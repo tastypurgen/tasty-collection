@@ -1,6 +1,7 @@
 const { v4: uuid } = require('uuid');
+const { validationResult } = require('express-validator');
 
-const HttpError = require('../models/http-error')
+const HttpError = require('../models/HttpError')
 
 let ITEMS = [
   {
@@ -55,16 +56,25 @@ const getItemsByUserId = (req, res, next) => {
 }
 
 const createItem = (req, res, next) => {
+  const validationErrors = validationResult(req)
+  if (!validationErrors.isEmpty()) {
+    throw new HttpError('Please check entered data', 422)
+  }
+
   const { id, title, description, creatorId } = req.body;
 
   const createdItem = { id: uuid(), title, description, creatorId };
 
   ITEMS.push(createdItem)
   res.status(201).json({ item: createdItem })
-  console.log(ITEMS)
 }
 
 const updateItem = (req, res, next) => {
+  const validationErrors = validationResult(req)
+  if (!validationErrors.isEmpty()) {
+    throw new HttpError('Please check entered data', 422)
+  }
+
   const { title, description, } = req.body;
   const { itemId } = req.params;
 
@@ -81,6 +91,10 @@ const updateItem = (req, res, next) => {
 
 const deleteItem = (req, res, next) => {
   const { itemId } = req.params;
+
+  if (!ITEMS.find(item => item.id === itemId)) {
+    throw new HttpError('Deletion is failed. Item not found', 404)
+  }
 
   ITEMS = ITEMS.filter(item => item.id !== itemId)
 

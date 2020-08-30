@@ -4,7 +4,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 
 const itemsRoutes = require('./routes/items-routes');
-const HttpError = require('./models/http-error');
+const HttpError = require('./models/HttpError');
 const usersRoutes = require('./routes/users-routes');
 
 const app = express();
