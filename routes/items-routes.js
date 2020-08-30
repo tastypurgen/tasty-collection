@@ -1,12 +1,12 @@
 const express = require('express');
 
-const { getItemById, getItemByUserId, createItem, updateItem, deleteItem } = require('../controllers/items-controller')
+const { getItemById, getItemsByUserId, createItem, updateItem, deleteItem } = require('../controllers/items-controller')
 
 const router = express.Router();
 
 router.get('/:itemId', getItemById);
 
-router.get('/user/:userId', getItemByUserId);
+router.get('/user/:userId', getItemsByUserId);
 
 router.post('/', createItem)
 

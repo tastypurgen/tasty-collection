@@ -44,14 +44,14 @@ const getItemById = (req, res, next) => {
   res.json(item);
 }
 
-const getItemByUserId = (req, res, next) => {
+const getItemsByUserId = (req, res, next) => {
   const { userId } = req.params;
-  const item = ITEMS.find((key) => key.creatorId === userId);
+  const items = ITEMS.filter((key) => key.creatorId === userId);
 
-  if (!item) {
-    return next(new HttpError('Could not found an item by USER ID', 404));
+  if (!items || items.length === 0) {
+    return next(new HttpError('Could not found items by USER ID', 404));
   }
-  res.json(item);
+  res.json(items);
 }
 
 const createItem = (req, res, next) => {
@@ -88,7 +88,7 @@ const deleteItem = (req, res, next) => {
 }
 
 exports.getItemById = getItemById;
-exports.getItemByUserId = getItemByUserId;
+exports.getItemsByUserId = getItemsByUserId;
 exports.createItem = createItem;
 exports.updateItem = updateItem;
 exports.deleteItem = deleteItem;
