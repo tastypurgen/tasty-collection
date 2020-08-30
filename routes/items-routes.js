@@ -1,7 +1,9 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
 
-const { getItemById, getItemsByUserId, createItem, updateItem, deleteItem } = require('../controllers/items-controller')
+const {
+  getItemById, getItemsByUserId, createItem, updateItem, deleteItem,
+} = require('../controllers/items-controller');
 
 const router = Router();
 
@@ -13,20 +15,20 @@ router.post(
   '/',
   [
     check('title').not().isEmpty(),
-    check('description').isLength({ min: 5 })
+    check('description').isLength({ min: 5 }),
   ],
-  createItem
-)
+  createItem,
+);
 
 router.patch(
   '/:itemId',
   [
     check('title').not().isEmpty(),
-    check('description').isLength({ min: 5 })
+    check('description').isLength({ min: 5 }),
   ],
-  updateItem
-)
+  updateItem,
+);
 
-router.delete('/:itemId', deleteItem)
+router.delete('/:itemId', deleteItem);
 
 module.exports = router;

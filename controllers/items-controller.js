@@ -1,7 +1,7 @@
 const { v4: uuid } = require('uuid');
 const { validationResult } = require('express-validator');
 
-const HttpError = require('../models/HttpError')
+const HttpError = require('../models/HttpError');
 
 let ITEMS = [
   {
@@ -43,7 +43,7 @@ const getItemById = (req, res, next) => {
   if (!item) throw new HttpError('Could not found an item by ID', 404);
 
   res.json(item);
-}
+};
 
 const getItemsByUserId = (req, res, next) => {
   const { userId } = req.params;
@@ -53,53 +53,57 @@ const getItemsByUserId = (req, res, next) => {
     return next(new HttpError('Could not found items by USER ID', 404));
   }
   res.json(items);
-}
+};
 
 const createItem = (req, res, next) => {
-  const validationErrors = validationResult(req)
+  const validationErrors = validationResult(req);
   if (!validationErrors.isEmpty()) {
-    throw new HttpError('Please check entered data', 422)
+    throw new HttpError('Please check entered data', 422);
   }
 
-  const { id, title, description, creatorId } = req.body;
+  const {
+    id, title, description, creatorId,
+  } = req.body;
 
-  const createdItem = { id: uuid(), title, description, creatorId };
+  const createdItem = {
+    id: uuid(), title, description, creatorId,
+  };
 
-  ITEMS.push(createdItem)
-  res.status(201).json({ item: createdItem })
-}
+  ITEMS.push(createdItem);
+  res.status(201).json({ item: createdItem });
+};
 
 const updateItem = (req, res, next) => {
-  const validationErrors = validationResult(req)
+  const validationErrors = validationResult(req);
   if (!validationErrors.isEmpty()) {
-    throw new HttpError('Please check entered data', 422)
+    throw new HttpError('Please check entered data', 422);
   }
 
-  const { title, description, } = req.body;
+  const { title, description } = req.body;
   const { itemId } = req.params;
 
-  const updatedItem = { ...ITEMS.find((key) => key.id === itemId) }
-  const itemIndex = ITEMS.findIndex((key) => key.id === itemId)
+  const updatedItem = { ...ITEMS.find((key) => key.id === itemId) };
+  const itemIndex = ITEMS.findIndex((key) => key.id === itemId);
 
   updatedItem.title = title;
   updatedItem.description = description;
 
   ITEMS[itemIndex] = updatedItem;
 
-  res.status(200).json({ item: updatedItem })
-}
+  res.status(200).json({ item: updatedItem });
+};
 
 const deleteItem = (req, res, next) => {
   const { itemId } = req.params;
 
-  if (!ITEMS.find(item => item.id === itemId)) {
-    throw new HttpError('Deletion is failed. Item not found', 404)
+  if (!ITEMS.find((item) => item.id === itemId)) {
+    throw new HttpError('Deletion is failed. Item not found', 404);
   }
 
-  ITEMS = ITEMS.filter(item => item.id !== itemId)
+  ITEMS = ITEMS.filter((item) => item.id !== itemId);
 
-  res.status(200).json({ message: 'Item deleted' })
-}
+  res.status(200).json({ message: 'Item deleted' });
+};
 
 exports.getItemById = getItemById;
 exports.getItemsByUserId = getItemsByUserId;
