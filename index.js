@@ -3,7 +3,9 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 
+const httpError = require('./models/http-error')
 const itemsRoutes = require('./routes/items-routes');
+const HttpError = require('./models/http-error');
 // const usersRoutes = require('./routes/users-routes');
 
 const app = express();
@@ -11,6 +13,10 @@ app.use(express.json());
 
 app.use('/api/items', itemsRoutes);
 // app.use(usersRoutes);
+
+app.use((req, res, next) => {
+  throw new HttpError('Not found', 404)
+});
 
 app.use((error, req, res, next) => {
   if (!res.headerSent) next(error);

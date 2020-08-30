@@ -2,7 +2,7 @@ const { v4: uuid } = require('uuid');
 
 const HttpError = require('../models/http-error')
 
-const ITEMS = [
+let ITEMS = [
   {
     id: 'i1',
     type: 'book',
@@ -64,6 +64,31 @@ const createItem = (req, res, next) => {
   console.log(ITEMS)
 }
 
+const updateItem = (req, res, next) => {
+  const { title, description, } = req.body;
+  const { itemId } = req.params;
+
+  const updatedItem = { ...ITEMS.find((key) => key.id === itemId) }
+  const itemIndex = ITEMS.findIndex((key) => key.id === itemId)
+
+  updatedItem.title = title;
+  updatedItem.description = description;
+
+  ITEMS[itemIndex] = updatedItem;
+
+  res.status(200).json({ item: updatedItem })
+}
+
+const deleteItem = (req, res, next) => {
+  const { itemId } = req.params;
+
+  ITEMS = ITEMS.filter(item => item.id !== itemId)
+
+  res.status(200).json({ message: 'Item deleted' })
+}
+
 exports.getItemById = getItemById;
 exports.getItemByUserId = getItemByUserId;
 exports.createItem = createItem;
+exports.updateItem = updateItem;
+exports.deleteItem = deleteItem;
