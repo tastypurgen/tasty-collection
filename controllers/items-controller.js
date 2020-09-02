@@ -37,23 +37,38 @@ const Item = require('../models/Item');
 //   },
 // ];
 
-const getItemById = (req, res, next) => {
+const getItemById = async (req, res, next) => {
   const { itemId } = req.params;
-  const item = ITEMS.find((key) => key.id === itemId);
+  let item;
 
-  if (!item) throw new HttpError('Could not found an item by ID', 404);
+  try {
+    item = await Item.findById(itemId);
+  } catch (error) {
+    return next(new HttpError(error, 500));
+  }
 
-  res.json(item);
+  if (!item) {
+    return next(new HttpError('Could not found an item by ID', 404));
+  }
+
+  res.json({ item: item.toObject({ getters: true }) });
 };
 
-const getItemsByUserId = (req, res, next) => {
+const getItemsByUserId = async (req, res, next) => {
   const { userId } = req.params;
-  const items = ITEMS.filter((key) => key.creatorId === userId);
+  let items;
+
+  try {
+    items = await Item.find({ creatorId: userId });
+  } catch (error) {
+    return next(new HttpError(error, 500));
+  }
 
   if (!items || items.length === 0) {
     return next(new HttpError('Could not found items by USER ID', 404));
   }
-  res.json(items);
+
+  res.json({ items: items.map((item) => item.toObject({ getters: true })) });
 };
 
 const createItem = async (req, res, next) => {
@@ -63,28 +78,28 @@ const createItem = async (req, res, next) => {
   }
 
   const {
-    id, title, description, creatorId,
+    type, title, description, tags, creatorId,
   } = req.body;
 
   const createdItem = new Item({
-    type: 'test',
+    type,
+    title,
     description,
     image: 'https://images-na.ssl-images-amazon.com/images/I/91SZSW8qSsL.jpg',
-    tags: ['test'],
-    likes: 6,
-    creatorId
-  })
+    tags,
+    creatorId,
+  });
 
   try {
     await createdItem.save();
   } catch (error) {
-    return next(new HttpError(error, 500))
+    return next(new HttpError(error, 500));
   }
 
   res.status(201).json({ item: createdItem });
 };
 
-const updateItem = (req, res, next) => {
+const updateItem = async (req, res, next) => {
   const validationErrors = validationResult(req);
   if (!validationErrors.isEmpty()) {
     throw new HttpError('Please check entered data', 422);
@@ -93,25 +108,42 @@ const updateItem = (req, res, next) => {
   const { title, description } = req.body;
   const { itemId } = req.params;
 
-  const updatedItem = { ...ITEMS.find((key) => key.id === itemId) };
-  const itemIndex = ITEMS.findIndex((key) => key.id === itemId);
+  let item;
 
-  updatedItem.title = title;
-  updatedItem.description = description;
-
-  ITEMS[itemIndex] = updatedItem;
-
-  res.status(200).json({ item: updatedItem });
-};
-
-const deleteItem = (req, res, next) => {
-  const { itemId } = req.params;
-
-  if (!ITEMS.find((item) => item.id === itemId)) {
-    throw new HttpError('Deletion is failed. Item not found', 404);
+  try {
+    item = await Item.findById(itemId);
+  } catch (error) {
+    return next(new HttpError(error, 500));
   }
 
-  ITEMS = ITEMS.filter((item) => item.id !== itemId);
+  item.title = title;
+  item.description = description;
+
+  try {
+    await item.save();
+  } catch (error) {
+    return next(new HttpError(error, 500));
+  }
+
+  res.status(200).json({ item: item.toObject({ getters: true }) });
+};
+
+const deleteItem = async (req, res, next) => {
+  const { itemId } = req.params;
+
+  let item;
+
+  try {
+    item = await Item.findById(itemId);
+  } catch (error) {
+    return next(new HttpError(error, 500));
+  }
+
+  try {
+    await item.remove();
+  } catch (error) {
+    return next(new HttpError(error, 500));
+  }
 
   res.status(200).json({ message: 'Item deleted' });
 };
