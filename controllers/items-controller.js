@@ -29,6 +29,7 @@ const getItemsByUserId = async (req, res, next) => {
 
   try {
     items = await Item.find({ creatorId: userId });
+    // or await User.findById(userId).populate('items')
   } catch (error) {
     return next(new HttpError(error, 500));
   }
@@ -123,13 +124,24 @@ const deleteItem = async (req, res, next) => {
   let item;
 
   try {
-    item = await Item.findById(itemId);
+    item = await Item.findById(itemId).populate('creatorId');
   } catch (error) {
     return next(new HttpError(error, 500));
   }
 
+  if (!item) {
+    return next(new HttpError('Place for this ID not found'), 404);
+  }
+
   try {
-    await item.remove();
+    const session = await mongoose.startSession();
+    session.startTransaction();
+
+    await item.remove({ session });
+    item.creatorId.items.pull(item);
+    await item.creatorId.save({ session });
+
+    await session.commitTransaction();
   } catch (error) {
     return next(new HttpError(error, 500));
   }
