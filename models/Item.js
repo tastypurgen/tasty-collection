@@ -9,7 +9,7 @@ const ItemSchema = new Schema({
   image: { type: String, required: true },
   tags: { type: Array, required: true },
   likes: Number,
-  creatorId: { type: String, required: true },
+  creatorId: { type: mongoose.Types.ObjectId, required: true, ref: 'User' },
 });
 
 module.exports = mongoose.model('Item', ItemSchema);

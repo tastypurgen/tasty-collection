@@ -13,8 +13,9 @@ app.use(express.json());
 app.use('/api/items', itemsRoutes);
 app.use('/api/users', usersRoutes);
 
+// eslint-disable-next-line no-unused-vars
 app.use((req, res, next) => {
-  throw new HttpError('Not found', 404);
+  throw new HttpError('Unknown Error', 404);
 });
 
 app.use((error, req, res, next) => {
