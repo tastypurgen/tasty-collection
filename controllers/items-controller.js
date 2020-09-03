@@ -29,6 +29,7 @@ const Item = require('../models/Item');
 //     id: "i3",
 //     type: "film",
 //     title: "The Shawshank Redemption",
+// eslint-disable-next-line max-len
 //     description: "The Shawshank Redemption is a 1994 American drama film written and directed by Frank Darabont, based on the 1982 Stephen King novella",
 //     image: "https://images-na.ssl-images-amazon.com/images/I/51zUbui%2BgbL.jpg",
 //     tags: ["drama", "interesting", "film", "fiction"],
@@ -74,7 +75,7 @@ const getItemsByUserId = async (req, res, next) => {
 const createItem = async (req, res, next) => {
   const validationErrors = validationResult(req);
   if (!validationErrors.isEmpty()) {
-    throw new HttpError('Please check entered data', 422);
+    return next(new HttpError('Please check entered data', 422));
   }
 
   const {
@@ -102,7 +103,7 @@ const createItem = async (req, res, next) => {
 const updateItem = async (req, res, next) => {
   const validationErrors = validationResult(req);
   if (!validationErrors.isEmpty()) {
-    throw new HttpError('Please check entered data', 422);
+    return next(new HttpError('Please check entered data', 422));
   }
 
   const { title, description } = req.body;

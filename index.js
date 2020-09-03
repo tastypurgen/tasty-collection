@@ -14,7 +14,7 @@ app.use('/api/items', itemsRoutes);
 app.use('/api/users', usersRoutes);
 
 app.use((req, res, next) => {
-  throw new HttpError('Not found', 404)
+  throw new HttpError('Not found', 404);
 });
 
 app.use((error, req, res, next) => {
@@ -27,6 +27,7 @@ app.use((error, req, res, next) => {
 mongoose.connect(process.env.DB, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  useCreateIndex: true,
 });
 
 const db = mongoose.connection;

@@ -2,6 +2,7 @@ const { v4: uuid } = require('uuid');
 const { validationResult } = require('express-validator');
 
 const HttpError = require('../models/HttpError');
+const User = require('../models/User');
 
 const USERS = [
   {
@@ -24,31 +25,46 @@ const USERS = [
   },
 ];
 
-const getAllUsers = (req, res, next) => {
+const getAllUsers = (res) => {
   res.status(201).json({ users: USERS });
 };
 
-const createUser = (req, res, next) => {
+const createUser = async (req, res, next) => {
   const validationErrors = validationResult(req);
   if (!validationErrors.isEmpty()) {
-    throw new HttpError('Please check entered data', 422);
+    return next(new HttpError('Please check entered data', 422));
   }
 
-  const { name, email, password } = req.body;
+  const {
+    name, email, password, items,
+  } = req.body;
 
-  const isExist = USERS.find((user) => user.email === email);
+  let existingUser;
+  try {
+    existingUser = await User.findOne({ email });
+  } catch (error) {
+    return next(new HttpError(error, 500));
+  }
 
-  if (isExist) throw new HttpError('Email is already taken', 422);
+  if (existingUser) {
+    return next(new HttpError('User exists', 422));
+  }
 
-  const createdUser = {
-    id: uuid(),
+  const createdUser = new User({
     name,
     email,
+    image: 'https://upload.wikimedia.org/wikipedia/en/d/dc/Pocket_Mortys.png',
     password,
-  };
+    items,
+  });
 
-  USERS.push(createdUser);
-  res.status(201).json({ user: createdUser });
+  try {
+    await createdUser.save();
+  } catch (error) {
+    return next(new HttpError(error, 500));
+  }
+
+  res.status(201).json({ user: createdUser.toObject({ getters: true }) });
 };
 
 const loginUser = (req, res, next) => {
@@ -56,7 +72,9 @@ const loginUser = (req, res, next) => {
 
   const foundUser = USERS.find((user) => user.email === email);
 
-  if (!foundUser || foundUser.password !== password) throw new HttpError('Wrong email or password', 401);
+  if (!foundUser || foundUser.password !== password) {
+    return next(new HttpError('Wrong email or password', 401));
+  }
 
   res.json({ message: 'Signed in' });
 };

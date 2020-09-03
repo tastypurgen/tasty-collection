@@ -8,9 +8,10 @@ module.exports = {
     'airbnb-base',
   ],
   parserOptions: {
-    ecmaVersion: 12,
+    ecmaVersion: 11,
   },
   rules: {
+    'consistent-return': 'off',
     'import/no-extraneous-dependencies': [
       'error',
       { devDependencies: true },
