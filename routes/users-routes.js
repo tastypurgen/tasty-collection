@@ -11,7 +11,7 @@ router.post(
   '/signup',
   [
     check('name').not().isEmpty(),
-    check('email').normalizeEmail().isEmail(),
+    check('email').not().isEmpty(),
   ],
   createUser,
 );

@@ -1,16 +1,21 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import {
-  Container, Form, Button, Jumbotron,
+  Container, Form, Button, Jumbotron, Spinner
 } from 'react-bootstrap';
 import { useIntl } from 'react-intl';
+import axios from 'axios';
 
 import Input from '../../shared/components/Input';
 import useForm from '../../shared/hooks/useForm';
 import { VALIDATOR_REQUIRE, VALIDATOR_EMAIL } from '../../utils/validator';
+import { AuthContext } from '../../shared/context/AuthContext';
 
 export default function SignUp() {
+  const auth = useContext(AuthContext);
   const intl = useIntl().formatMessage;
 
+  const [isLoading, setIsLoading] = useState(false)
+  const [isError, setIsError] = useState(false)
   const [formState, inputHandler] = useForm(
     {
       name: {
@@ -29,10 +34,24 @@ export default function SignUp() {
     false,
   );
 
-  const submitHandler = (event) => {
+  const submitHandler = async (event) => {
     event.preventDefault();
-    // eslint-disable-next-line no-console
-    console.log(formState.inputs);
+    setIsLoading(true)
+
+    try {
+      const response = await axios.post('http://localhost:5501/api/users/signup', {
+        name: formState.inputs.name.value,
+        email: formState.inputs.email.value,
+        password: formState.inputs.password.value
+      })
+
+      setIsLoading(false)
+      auth.login();
+    } catch (error) {
+      setIsLoading(false)
+      setIsError(error)
+    }
+
   };
 
   return (
@@ -73,14 +92,30 @@ export default function SignUp() {
             initialValue={formState.inputs.password.value}
             initialValid={formState.inputs.password.isValid}
           />
-          <Button
-            type="submit"
-            variant="info"
-            block
-            disabled={!formState.isValid}
-          >
-            {intl({ id: 'NewItem.Submit' })}
-          </Button>
+          {isLoading ?
+            <Button
+              variant="info"
+              block
+              disabled
+            >
+              <Spinner
+                as="span"
+                animation="grow"
+                size="sm"
+                role="status"
+                aria-hidden="true"
+              />
+              Loading...
+            </Button> :
+            <Button
+              type="submit"
+              variant="info"
+              block
+              disabled={!formState.isValid}
+            >
+              {intl({ id: 'NewItem.Submit' })}
+            </Button>}
+
         </Form>
       </Jumbotron>
     </Container>
