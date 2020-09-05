@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import {
-  Container, Form, Button, Jumbotron, Spinner
+  Container, Form, Button, Jumbotron, Spinner, Alert
 } from 'react-bootstrap';
 import { useIntl } from 'react-intl';
 import axios from 'axios';
@@ -45,6 +45,11 @@ export default function SignUp() {
         password: formState.inputs.password.value
       })
 
+      if (response.ok) {
+        console.log('tttttt')
+        throw new Error(response.message)
+      }
+
       setIsLoading(false)
       auth.login();
     } catch (error) {
@@ -81,6 +86,9 @@ export default function SignUp() {
             initialValue={formState.inputs.email.value}
             initialValid={formState.inputs.email.isValid}
           />
+          {isError && <Alert variant="info">
+            The email must be unique
+          </Alert>}
           <Input
             id="password"
             element="input"
