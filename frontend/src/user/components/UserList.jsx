@@ -8,13 +8,14 @@ export default function UserList({ users, error }) {
   if (!users || users.length === 0) {
     return (
       <Container className="text-center">
-        {error ?
-          <h3>{error}</h3> :
-          <h2>No users found :(</h2>}
+        {
+          error
+            ? <h3>{error}</h3>
+            : <h2>No users found :(</h2>
+        }
       </Container>
     );
   }
-
 
   return (
     <Container>

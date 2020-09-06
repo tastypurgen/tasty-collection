@@ -1,18 +1,19 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import {
-  Container, Form, Button, Jumbotron, Spinner, Alert
+  Container, Form, Button, Jumbotron, Spinner, Alert,
 } from 'react-bootstrap';
 import { useIntl } from 'react-intl';
-import axios from 'axios';
 
 import Input from '../../shared/components/Input';
 import useForm from '../../shared/hooks/useForm';
 import { VALIDATOR_REQUIRE, VALIDATOR_EMAIL } from '../../utils/validator';
 import { AuthContext } from '../../shared/context/AuthContext';
+import { useHttpClient } from '../../shared/hooks/useHttpClient';
 
 export default function SignUp() {
-  const [isLoading, setIsLoading] = useState(false)
-  const [isError, setIsError] = useState(false)
+  const {
+    isLoading, error, sendRequest,
+  } = useHttpClient();
 
   const auth = useContext(AuthContext);
   const intl = useIntl().formatMessage;
@@ -33,22 +34,20 @@ export default function SignUp() {
 
   const submitHandler = async (event) => {
     event.preventDefault();
-    setIsLoading(true)
 
     try {
-      const response = await axios.post('http://localhost:5501/api/users/signin', {
+      await sendRequest('http://localhost:5501/api/users/signin', 'POST', JSON.stringify({
         email: formState.inputs.email.value,
-        password: formState.inputs.password.value
-      })
-      console.log(response.data)
+        password: formState.inputs.password.value,
+      }), {
+        'Content-Type': 'application/json',
+      });
 
-      setIsLoading(false)
       auth.login();
-    } catch (error) {
-      setIsLoading(false)
-      setIsError(error)
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.log('err: ', err);
     }
-
   };
 
   return (
@@ -78,32 +77,38 @@ export default function SignUp() {
             initialValue={formState.inputs.password.value}
             initialValid={formState.inputs.password.isValid}
           />
-          {isError && <Alert variant="info">
-            Wrong email/password
-          </Alert>}
-          {isLoading ?
-            <Button
-              variant="info"
-              block
-              disabled
-            >
-              <Spinner
-                as="span"
-                animation="grow"
-                size="sm"
-                role="status"
-                aria-hidden="true"
-              />
-              Loading...
-            </Button> :
-            <Button
-              type="submit"
-              variant="info"
-              block
-              disabled={!formState.isValid}
-            >
-              {intl({ id: 'NewItem.Submit' })}
-            </Button>}
+          {error && (
+            <Alert variant="info">
+              Wrong email/password
+            </Alert>
+          )}
+          {isLoading
+            ? (
+              <Button
+                variant="info"
+                block
+                disabled
+              >
+                <Spinner
+                  as="span"
+                  animation="grow"
+                  size="sm"
+                  role="status"
+                  aria-hidden="true"
+                />
+                Loading...
+              </Button>
+            )
+            : (
+              <Button
+                type="submit"
+                variant="info"
+                block
+                disabled={!formState.isValid}
+              >
+                {intl({ id: 'NewItem.Submit' })}
+              </Button>
+            )}
         </Form>
       </Jumbotron>
     </Container>

@@ -1,46 +1,46 @@
 import React, { useEffect, useState } from 'react';
-import UserList from '../components/UserList';
 import axios from 'axios';
 import { Spinner, Container } from 'react-bootstrap';
 
+import UserList from '../components/UserList';
+import { useHttpClient } from '../../shared/hooks/useHttpClient';
+
 export default function Users() {
-  const [isLoading, setIsLoading] = useState(false)
-  const [isError, setIsError] = useState(false)
-  const [loadedUsers, setLoadedUsers] = useState(false)
+  const {
+    isLoading, error, sendRequest,
+  } = useHttpClient();
+  const [loadedUsers, setLoadedUsers] = useState(false);
 
   useEffect(() => {
-    const sendRequest = async () => {
-      setIsLoading(true)
-
+    const fetchUsers = async () => {
       try {
-        const response = await axios.get('http://localhost:5501/api/users/')
-        setLoadedUsers(response.data.users)
-        console.log('response.data.users: ', response.data.users);
+        const responseData = await axios.get('http://localhost:5501/api/users/');
 
-        if (!response.ok) throw new Error(response)
-      } catch (error) {
-        setIsError(error.message)
+        setLoadedUsers(responseData.data.users);
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.log(err.message);
       }
-
-      setIsLoading(false)
-    }
-    sendRequest()
-  }, [])
-
+    };
+    fetchUsers();
+  }, [sendRequest]);
 
   if (isLoading) {
     return (
       <Container>
-        <Spinner style={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(50%)"
-        }} animation="grow" />
+        <Spinner
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(50%)',
+          }}
+          animation="grow"
+        />
       </Container>
-    )
+    );
   }
   return (
-    <UserList users={loadedUsers} error={isError} />
+    <UserList users={loadedUsers} error={error} />
   );
 }
