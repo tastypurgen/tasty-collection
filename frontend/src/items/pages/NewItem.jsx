@@ -1,14 +1,21 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
-  Button, Form, Container,
+  Button, Form, Container, Spinner, Alert,
 } from 'react-bootstrap';
-
 import { useIntl } from 'react-intl';
+import { useHistory } from 'react-router-dom';
+
 import Input from '../../shared/components/Input';
 import { VALIDATOR_REQUIRE, VALIDATOR_MINLENGTH } from '../../utils/validator';
 import useForm from '../../shared/hooks/useForm';
+import { useHttpClient } from '../../shared/hooks/useHttpClient';
+import { AuthContext } from '../../shared/context/AuthContext';
 
 export default function NewPlace() {
+  const auth = useContext(AuthContext);
+  const {
+    isLoading, error, sendRequest,
+  } = useHttpClient();
   const [formState, inputHandler] = useForm(
     {
       dropdown: {
@@ -31,8 +38,9 @@ export default function NewPlace() {
   );
 
   const intl = useIntl().formatMessage;
+  const history = useHistory();
 
-  const submitHandler = (event) => {
+  const submitHandler = async (event) => {
     event.preventDefault();
     const splittedTags = formState.inputs.tags.value.split(',').map((tag) => tag.trim());
 
@@ -44,7 +52,29 @@ export default function NewPlace() {
         value: splittedTags,
         isValid: true,
       },
+      creatorId: auth.userId,
     });
+
+    try {
+      await sendRequest(
+        'http://localhost:5501/api/items/',
+        'POST',
+        JSON.stringify({
+          ...formState.inputs,
+          tags: {
+            value: splittedTags,
+            isValid: true,
+          },
+          creatorId: auth.userId,
+        }),
+        { 'Content-Type': 'application/json' },
+      );
+
+      history.push('/');
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.log(err);
+    }
   };
 
   return (
@@ -83,14 +113,38 @@ export default function NewPlace() {
           errorText={intl({ id: 'NewItem.TagsError' })}
           onInput={inputHandler}
         />
-        <Button
-          type="submit"
-          variant="info"
-          block
-          disabled={!formState.isValid}
-        >
-          {intl({ id: 'NewItem.Submit' })}
-        </Button>
+        {isLoading
+          ? (
+            <Button
+              variant="info"
+              block
+              disabled
+            >
+              <Spinner
+                as="span"
+                animation="grow"
+                size="sm"
+                role="status"
+                aria-hidden="true"
+              />
+              Loading...
+            </Button>
+          )
+          : (
+            <Button
+              type="submit"
+              variant="info"
+              block
+              disabled={!formState.isValid}
+            >
+              {intl({ id: 'NewItem.Submit' })}
+            </Button>
+          )}
+        {error && (
+          <Alert variant="info">
+            Wrong email/password
+          </Alert>
+        )}
       </Form>
     </Container>
   );

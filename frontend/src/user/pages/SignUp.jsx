@@ -38,7 +38,7 @@ export default function SignUp() {
     event.preventDefault();
 
     try {
-      await sendRequest('http://localhost:5501/api/users/signup',
+      const responeData = await sendRequest('http://localhost:5501/api/users/signup',
         'POST',
         JSON.stringify({
           name: formState.inputs.name.value,
@@ -49,7 +49,7 @@ export default function SignUp() {
           'Content-Type': 'application/json',
         });
 
-      auth.login();
+      auth.login(responeData.user.id);
     } catch (err) {
       // eslint-disable-next-line no-console
       console.log('err: ', err);

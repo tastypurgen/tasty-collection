@@ -28,13 +28,16 @@ const messages = {
 export default function App() {
   const [locale, setLocale] = useState(localStorage.LOCALE || locales.EN);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userId, setUserId] = useState(null);
 
-  const login = useCallback(() => {
+  const login = useCallback((uid) => {
     setIsLoggedIn(true);
+    setUserId(uid);
   }, []);
 
   const logout = useCallback(() => {
     setIsLoggedIn(false);
+    setUserId(null);
   }, []);
 
   let ROUTES;
@@ -80,7 +83,10 @@ export default function App() {
   }
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, login, logout }}>
+    <AuthContext.Provider value={{
+      isLoggedIn, userId, login, logout,
+    }}
+    >
       <Router>
         <IntlProvider
           messages={messages[locale]}

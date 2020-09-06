@@ -44,17 +44,19 @@ const getItemsByUserId = async (req, res, next) => {
 const createItem = async (req, res, next) => {
   const validationErrors = validationResult(req);
   if (!validationErrors.isEmpty()) {
+    // eslint-disable-next-line no-console
+    console.log(validationErrors);
     return next(new HttpError('Please check entered data', 422));
   }
 
   const {
-    type, title, description, tags, creatorId,
+    dropdown, title, description, tags, creatorId,
   } = req.body;
 
   const createdItem = new Item({
-    type,
-    title,
-    description,
+    type: dropdown.value,
+    title: title.value,
+    description: description.value,
     image: 'https://images-na.ssl-images-amazon.com/images/I/91SZSW8qSsL.jpg',
     tags,
     creatorId,
@@ -91,6 +93,7 @@ const createItem = async (req, res, next) => {
 const updateItem = async (req, res, next) => {
   const validationErrors = validationResult(req);
   if (!validationErrors.isEmpty()) {
+    // eslint-disable-next-line no-console
     console.log(validationErrors);
     return next(new HttpError('Please check entered data', 422));
   }

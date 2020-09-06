@@ -19,6 +19,7 @@ const getAllUsers = async (req, res, next) => {
 const createUser = async (req, res, next) => {
   const validationErrors = validationResult(req);
   if (!validationErrors.isEmpty()) {
+    // eslint-disable-next-line no-console
     console.log(validationErrors);
     return next(new HttpError('Please check entered data', 422));
   }
@@ -68,7 +69,10 @@ const loginUser = async (req, res, next) => {
     return next(new HttpError('Wrong email or password', 401));
   }
 
-  res.json({ message: 'Signed in' });
+  res.json({
+    message: 'Signed in',
+    user: existingUser.toObject({ getters: true }),
+  });
 };
 
 exports.getAllUsers = getAllUsers;
