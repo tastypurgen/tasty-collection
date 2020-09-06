@@ -4,14 +4,17 @@ import { Container, Row, Col } from 'react-bootstrap';
 import UserItem from './UserItem';
 import './UserList.scss';
 
-export default function UserList({ users }) {
+export default function UserList({ users, error }) {
   if (!users || users.length === 0) {
     return (
-      <div className="center">
-        <h2>No users found! (for now...)</h2>
-      </div>
+      <Container className="text-center">
+        {error ?
+          <h3>{error}</h3> :
+          <h2>No users found :(</h2>}
+      </Container>
     );
   }
+
 
   return (
     <Container>
@@ -22,7 +25,7 @@ export default function UserList({ users }) {
               id={user.id}
               image={user.image}
               name={user.name}
-              itemCount={user.items}
+              itemCount={user.items.length}
             />
           </Col>
         ))}

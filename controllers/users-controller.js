@@ -41,6 +41,7 @@ const createUser = async (req, res, next) => {
     email,
     image: 'https://upload.wikimedia.org/wikipedia/en/d/dc/Pocket_Mortys.png',
     password,
+    isAdmin: false,
     items: [],
   });
 
