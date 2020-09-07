@@ -1,20 +1,36 @@
 import React from 'react';
 
 import {
-  Container, Row, Col, Button,
+  Container, Row, Col, Button, Spinner,
 } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import ItemItem from './ItemItem';
 
-export default function ItemList({ items }) {
-  if (!items || items.length === 0) {
+export default function ItemList({ items, error, isLoading }) {
+  if (isLoading) {
     return (
-      <div className="text-center">
+      <Container className="text-center">
+        <Spinner
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(50%)',
+          }}
+          animation="grow"
+        />
+      </Container>
+    );
+  }
+
+  if (!items || items.length === 0 || error) {
+    return (
+      <Container className="text-center">
         <h2>No items found</h2>
         <Link to="/items/add">
           <Button variant="info" type="button">Add item</Button>
         </Link>
-      </div>
+      </Container>
     );
   }
   return (
