@@ -28,7 +28,7 @@ export default function Header() {
             <Nav.Link as={NavLink} exact to="/">
               <FormattedMessage id="Header.Home" />
             </Nav.Link>
-            <Nav.Link as={NavLink} to="/u1/items">
+            <Nav.Link as={NavLink} to={`/${auth.userId}/items`}>
               <FormattedMessage id="Header.MyItems" />
             </Nav.Link>
             <Nav.Link as={NavLink} to="/items/add">
