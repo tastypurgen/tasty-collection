@@ -6,7 +6,9 @@ import {
 import { Link } from 'react-router-dom';
 import ItemItem from './ItemItem';
 
-export default function ItemList({ items, error, isLoading }) {
+export default function ItemList({
+  items, error, isLoading, deleteItem,
+}) {
   if (isLoading) {
     return (
       <Container className="text-center">
@@ -47,6 +49,7 @@ export default function ItemList({ items, error, isLoading }) {
               description={item.description}
               tags={item.tags}
               creatorId={item.creatorId}
+              deleteItem={deleteItem}
             />
           </Col>
         ))}

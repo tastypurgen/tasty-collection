@@ -25,11 +25,16 @@ export default function UserItems() {
     fetchItems();
   }, [sendRequest, userId]);
 
+  const deleteItem = (deleteId) => {
+    setLoadedItems((prev) => prev.filter((item) => item.id !== deleteId));
+  };
+
   return (
     <ItemList
       isLoading={isLoading}
       items={loadedItems}
       error={error}
+      deleteItem={deleteItem}
     />
   );
 }

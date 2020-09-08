@@ -5,12 +5,14 @@ import { useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 import ItemTags from './ItemTags';
 import { AuthContext } from '../../shared/context/AuthContext';
+import { useHttpClient } from '../../shared/hooks/useHttpClient';
 
 export default function ItemItem({
   // eslint-disable-next-line no-unused-vars
-  id, image, type, title, description, tags, creatorId,
+  id, image, type, title, description, tags, creatorId, deleteItem,
 }) {
   const [isModalShowed, setIsModalShowed] = useState(false);
+  const { sendRequest } = useHttpClient();
 
   const auth = useContext(AuthContext);
   const intl = useIntl().formatMessage;
@@ -23,10 +25,15 @@ export default function ItemItem({
     setIsModalShowed(false);
   };
 
-  const handleDelete = () => {
-    // eslint-disable-next-line no-console
-    console.log('deleted');
+  const handleDelete = async () => {
     setIsModalShowed(false);
+    try {
+      await sendRequest(`http://localhost:5501/api/items/${id}`, 'DELETE');
+      deleteItem(id);
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.log(err.message);
+    }
   };
 
   return (
