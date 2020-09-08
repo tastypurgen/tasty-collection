@@ -68,16 +68,13 @@ export default function App() {
         <Route exact path="/:userId/items">
           <UserItems />
         </Route>
-        <Route exact path="/items/:itemId">
-          <EditItem />
-        </Route>
         <Route exact path="/signup">
           <SignUp />
         </Route>
         <Route exact path="/signin">
           <SignIn />
         </Route>
-        <Redirect to="/" />
+        <Redirect to="/signin" />
       </Switch>
     );
   }
