@@ -9,6 +9,7 @@ import useForm from '../../shared/hooks/useForm';
 import { VALIDATOR_REQUIRE, VALIDATOR_EMAIL } from '../../utils/validator';
 import { AuthContext } from '../../shared/context/AuthContext';
 import { useHttpClient } from '../../shared/hooks/useHttpClient';
+import ImageUploader from '../../shared/components/ImageUploader';
 
 export default function SignUp() {
   const auth = useContext(AuthContext);
@@ -36,7 +37,7 @@ export default function SignUp() {
 
   const submitHandler = async (event) => {
     event.preventDefault();
-
+    console.log(formState.inputs);
     try {
       const responeData = await sendRequest('http://localhost:5501/api/users/signup',
         'POST',
@@ -61,6 +62,7 @@ export default function SignUp() {
       <Jumbotron style={{ width: '100%', maxWidth: '600px' }}>
         <h2 className="text-center">Sign Up</h2>
         <Form style={{ width: '100%', maxWidth: '600px' }} onSubmit={submitHandler}>
+          <ImageUploader id="image" center onInput={inputHandler} />
           <Input
             id="name"
             element="input"
