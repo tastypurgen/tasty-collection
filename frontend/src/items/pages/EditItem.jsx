@@ -129,7 +129,7 @@ export default function EditItem() {
       {!isLoading && loadedItem && (
         <Form onSubmit={submitHandler}>
           <Input
-            id="dropdown"
+            id="type"
             element="select"
             label={intl({ id: 'NewItem.Collection' })}
             validators={[VALIDATOR_REQUIRE()]}

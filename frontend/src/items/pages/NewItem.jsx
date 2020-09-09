@@ -10,6 +10,7 @@ import { VALIDATOR_REQUIRE, VALIDATOR_MINLENGTH } from '../../utils/validator';
 import useForm from '../../shared/hooks/useForm';
 import { useHttpClient } from '../../shared/hooks/useHttpClient';
 import { AuthContext } from '../../shared/context/AuthContext';
+import ImageUploader from '../../shared/components/ImageUploader';
 
 export default function NewPlace() {
   const auth = useContext(AuthContext);
@@ -18,7 +19,7 @@ export default function NewPlace() {
   } = useHttpClient();
   const [formState, inputHandler] = useForm(
     {
-      dropdown: {
+      type: {
         value: '',
         isValid: false,
       },
@@ -34,6 +35,10 @@ export default function NewPlace() {
         value: [],
         isValid: false,
       },
+      image: {
+        value: null,
+        isValid: false,
+      },
     }, false,
   );
 
@@ -43,32 +48,17 @@ export default function NewPlace() {
   const submitHandler = async (event) => {
     event.preventDefault();
     const splittedTags = formState.inputs.tags.value.split(',').map((tag) => tag.trim());
-
-    // send to back later
-    // eslint-disable-next-line no-console
-    console.log({
-      ...formState.inputs,
-      tags: {
-        value: splittedTags,
-        isValid: true,
-      },
-      creatorId: auth.userId,
-    });
-
+    const currentType = formState.inputs.type.value;
     try {
-      await sendRequest(
-        'http://localhost:5501/api/items/',
-        'POST',
-        JSON.stringify({
-          ...formState.inputs,
-          tags: {
-            value: splittedTags,
-            isValid: true,
-          },
-          creatorId: auth.userId,
-        }),
-        { 'Content-Type': 'application/json' },
-      );
+      const formData = new FormData();
+      formData.append('type', currentType);
+      formData.append('title', formState.inputs.title.value);
+      formData.append('description', formState.inputs.description.value);
+      formData.append('tags', splittedTags);
+      formData.append('creatorId', auth.userId);
+      formData.append('image', formState.inputs.image.value);
+
+      await sendRequest('http://localhost:5501/api/items', 'POST', formData);
 
       history.push('/');
     } catch (err) {
@@ -80,8 +70,9 @@ export default function NewPlace() {
   return (
     <Container style={{ maxWidth: '600px' }}>
       <Form onSubmit={submitHandler}>
+        <ImageUploader id="image" onInput={inputHandler} />
         <Input
-          id="dropdown"
+          id="type"
           element="select"
           label={intl({ id: 'NewItem.Collection' })}
           validators={[VALIDATOR_REQUIRE()]}
@@ -142,7 +133,7 @@ export default function NewPlace() {
           )}
         {error && (
           <Alert variant="info">
-            Wrong email/password
+            Please check your data
           </Alert>
         )}
       </Form>

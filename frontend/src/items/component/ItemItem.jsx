@@ -59,7 +59,7 @@ export default function ItemItem({
       </Modal>
 
       <Card>
-        <Card.Img src={image} alt={title} />
+        <Card.Img src={`http://localhost:5501/${image}`} alt={title} />
         <Card.Body>
           <Card.Title>{title}</Card.Title>
           <Card.Text>{description}</Card.Text>

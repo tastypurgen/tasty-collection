@@ -1,5 +1,6 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
+const fileUpload = require('../middleware/file-upload');
 
 const {
   getItemById, getItemsByUserId, createItem, updateItem, deleteItem,
@@ -13,6 +14,7 @@ router.get('/user/:userId', getItemsByUserId);
 
 router.post(
   '/',
+  fileUpload.single('image'),
   [
     check('title').not().isEmpty(),
     check('description').isLength({ min: 5 }),

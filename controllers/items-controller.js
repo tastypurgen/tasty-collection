@@ -50,14 +50,14 @@ const createItem = async (req, res, next) => {
   }
 
   const {
-    dropdown, title, description, tags, creatorId,
+    type, title, description, tags, creatorId,
   } = req.body;
 
   const createdItem = new Item({
-    type: dropdown.value,
-    title: title.value,
-    description: description.value,
-    image: 'https://images-na.ssl-images-amazon.com/images/I/91SZSW8qSsL.jpg',
+    type,
+    title,
+    description,
+    image: req.file.path,
     tags,
     creatorId,
   });

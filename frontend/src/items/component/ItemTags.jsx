@@ -8,7 +8,7 @@ export default function ItemTags({ tags }) {
         <Badge
           pill
           variant="secondary"
-          key={tag.value}
+          key={tag}
           style={{ marginRight: '3px' }}
         >
           {tag.value}
