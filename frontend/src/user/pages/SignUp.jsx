@@ -37,18 +37,18 @@ export default function SignUp() {
 
   const submitHandler = async (event) => {
     event.preventDefault();
-    console.log(formState.inputs);
+
     try {
-      const responeData = await sendRequest('http://localhost:5501/api/users/signup',
+      const formData = new FormData();
+      formData.append('name', formState.inputs.name.value);
+      formData.append('email', formState.inputs.email.value);
+      formData.append('password', formState.inputs.password.value);
+      formData.append('image', formState.inputs.image.value);
+      const responeData = await sendRequest(
+        'http://localhost:5501/api/users/signup',
         'POST',
-        JSON.stringify({
-          name: formState.inputs.name.value,
-          email: formState.inputs.email.value,
-          password: formState.inputs.password.value,
-        }),
-        {
-          'Content-Type': 'application/json',
-        });
+        formData,
+      );
 
       auth.login(responeData.user.id);
     } catch (err) {

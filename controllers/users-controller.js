@@ -40,7 +40,7 @@ const createUser = async (req, res, next) => {
   const createdUser = new User({
     name,
     email,
-    image: 'https://upload.wikimedia.org/wikipedia/en/d/dc/Pocket_Mortys.png',
+    image: req.file.path,
     password,
     isAdmin: false,
     items: [],

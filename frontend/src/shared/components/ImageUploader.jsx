@@ -1,8 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Form, Button } from 'react-bootstrap';
 
-import FileBase64 from 'react-file-base64';
-
 import './ImageUpload.scss';
 
 export default function ImageUploader({ center, id, onInput }) {

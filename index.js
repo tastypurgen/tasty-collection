@@ -1,5 +1,7 @@
 /* eslint-disable no-console */
 require('dotenv').config();
+const fs = require('fs');
+const path = require('path');
 const express = require('express');
 const mongoose = require('mongoose');
 
@@ -9,6 +11,8 @@ const usersRoutes = require('./routes/users-routes');
 
 const app = express();
 app.use(express.json());
+
+app.use('/uploads/images', express.static(path.join('uploads', 'images')));
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -23,10 +27,15 @@ app.use('/api/users', usersRoutes);
 
 // eslint-disable-next-line no-unused-vars
 app.use((req, res, next) => {
-  throw new HttpError('Unknown Error', 404);
+  throw new HttpError('Route not found', 404);
 });
 
 app.use((error, req, res, next) => {
+  if (req.file) {
+    console.log('req.file: ', req.file);
+    fs.unlink(req.file.path, (err) => console.log(err));
+  }
+
   if (!res.headerSent) next(error);
 
   res.status(error.code || 500);
