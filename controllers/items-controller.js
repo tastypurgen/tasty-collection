@@ -1,4 +1,5 @@
 // const { v4: uuid } = require('uuid');
+const fs = require('fs');
 const { validationResult } = require('express-validator');
 const mongoose = require('mongoose');
 
@@ -136,6 +137,8 @@ const deleteItem = async (req, res, next) => {
     return next(new HttpError('Place for this ID not found'), 404);
   }
 
+  const imagePath = item.image;
+
   try {
     const session = await mongoose.startSession();
     session.startTransaction();
@@ -148,7 +151,7 @@ const deleteItem = async (req, res, next) => {
   } catch (error) {
     return next(new HttpError(error, 500));
   }
-
+  fs.unlink(imagePath, (err) => console.log(err));
   res.status(200).json({ message: 'Item deleted' });
 };
 
