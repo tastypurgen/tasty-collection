@@ -4,13 +4,27 @@ const fs = require('fs');
 const path = require('path');
 const express = require('express');
 const mongoose = require('mongoose');
+const passport = require('passport');
+const flash = require('express-flash');
+const session = require('express-session');
 
 const itemsRoutes = require('./routes/items-routes');
 const HttpError = require('./models/HttpError');
 const usersRoutes = require('./routes/users-routes');
+const initializePassport = require('./config/passport-config');
 
 const app = express();
 app.use(express.json());
+
+initializePassport(passport);
+app.use(flash());
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/uploads/images', express.static(path.join('uploads', 'images')));
 
@@ -27,7 +41,7 @@ app.use('/api/users', usersRoutes);
 
 // eslint-disable-next-line no-unused-vars
 app.use((req, res, next) => {
-  throw new HttpError('Route not found', 404);
+  throw new HttpError(`Route ${req.originalUrl} not found`, 404);
 });
 
 app.use((error, req, res, next) => {

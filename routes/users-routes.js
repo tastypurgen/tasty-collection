@@ -1,5 +1,6 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
+const passport = require('passport');
 
 const { getAllUsers, createUser, loginUser } = require('../controllers/users-controller');
 const fileUpload = require('../middleware/file-upload');
@@ -18,6 +19,14 @@ router.post(
   createUser,
 );
 
-router.post('/signin', loginUser);
+router.post('/signin',
+  passport.authenticate('local'),
+  (req, res) => {
+    console.log(req.body);
+    res.json({
+      message: 'Signed in',
+      user: req.user.toObject({ getters: true }),
+    });
+  });
 
 module.exports = router;

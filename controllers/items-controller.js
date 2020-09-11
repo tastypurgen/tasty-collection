@@ -151,6 +151,7 @@ const deleteItem = async (req, res, next) => {
   } catch (error) {
     return next(new HttpError(error, 500));
   }
+  // eslint-disable-next-line no-console
   fs.unlink(imagePath, (err) => console.log(err));
   res.status(200).json({ message: 'Item deleted' });
 };

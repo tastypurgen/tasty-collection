@@ -1,5 +1,6 @@
 // const { v4: uuid } = require('uuid');
 const { validationResult } = require('express-validator');
+const bcrypt = require('bcryptjs');
 
 const HttpError = require('../models/HttpError');
 const User = require('../models/User');
@@ -13,7 +14,11 @@ const getAllUsers = async (req, res, next) => {
     return next(new HttpError(error, 500));
   }
 
-  res.status(201).json({ users: users.map((user) => user.toObject({ getters: true })) });
+  res.status(201).json({
+    users: users.map((user) => user.toObject({ getters: true })),
+    session: req.user,
+    session1: 'asd',
+  });
 };
 
 const createUser = async (req, res, next) => {
@@ -37,11 +42,18 @@ const createUser = async (req, res, next) => {
     return next(new HttpError('User exists', 422));
   }
 
+  let hashedPassword;
+  try {
+    hashedPassword = await bcrypt.hash(password, 10);
+  } catch (error) {
+    return next(new HttpError(error, 500));
+  }
+
   const createdUser = new User({
     name,
     email,
     image: req.file.path,
-    password,
+    password: hashedPassword,
     isAdmin: false,
     items: [],
   });
@@ -55,26 +67,5 @@ const createUser = async (req, res, next) => {
   res.status(201).json({ user: createdUser.toObject({ getters: true }) });
 };
 
-const loginUser = async (req, res, next) => {
-  const { email, password } = req.body;
-
-  let existingUser;
-  try {
-    existingUser = await User.findOne({ email });
-  } catch (error) {
-    return next(new HttpError(error, 500));
-  }
-
-  if (!existingUser || existingUser.password !== password) {
-    return next(new HttpError('Wrong email or password', 401));
-  }
-
-  res.json({
-    message: 'Signed in',
-    user: existingUser.toObject({ getters: true }),
-  });
-};
-
 exports.getAllUsers = getAllUsers;
 exports.createUser = createUser;
-exports.loginUser = loginUser;
