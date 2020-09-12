@@ -1,5 +1,6 @@
 // const { v4: uuid } = require('uuid');
 const { validationResult } = require('express-validator');
+const bcrypt = require('bcryptjs');
 
 const HttpError = require('../models/HttpError');
 const User = require('../models/User');
@@ -37,11 +38,19 @@ const createUser = async (req, res, next) => {
     return next(new HttpError('User exists', 422));
   }
 
+  let hashedPassword;
+  try {
+    hashedPassword = await bcrypt.hash(password, 10);
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.log(error);
+  }
+
   const createdUser = new User({
     name,
     email,
     image: req.file.path,
-    password,
+    password: hashedPassword,
     isAdmin: false,
     items: [],
   });
@@ -65,7 +74,7 @@ const loginUser = async (req, res, next) => {
     return next(new HttpError(error, 500));
   }
 
-  if (!existingUser || existingUser.password !== password) {
+  if (!existingUser || await !bcrypt.compare(password, existingUser.password)) {
     return next(new HttpError('Wrong email or password', 401));
   }
 
