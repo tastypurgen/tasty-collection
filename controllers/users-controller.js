@@ -1,6 +1,7 @@
 // const { v4: uuid } = require('uuid');
 const { validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const HttpError = require('../models/HttpError');
 const User = require('../models/User');
@@ -27,14 +28,14 @@ const createUser = async (req, res, next) => {
 
   const { name, email, password } = req.body;
 
-  let existingUser;
+  let foundUser;
   try {
-    existingUser = await User.findOne({ email });
+    foundUser = await User.findOne({ email });
   } catch (error) {
     return next(new HttpError(error, 500));
   }
 
-  if (existingUser) {
+  if (foundUser) {
     return next(new HttpError('User exists', 422));
   }
 
@@ -61,27 +62,46 @@ const createUser = async (req, res, next) => {
     return next(new HttpError(error, 500));
   }
 
-  res.status(201).json({ user: createdUser.toObject({ getters: true }) });
+  let token;
+  try {
+    token = jwt.sign({ userId: createUser.id, name: createUser.name }, process.env.JWT_SECRET, { expiresIn: '1d' });
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.log(error);
+    return next(new HttpError('Signing up failed'));
+  }
+
+  res.status(201).json({ userId: createdUser.id, name: createdUser.name, token });
 };
 
 const loginUser = async (req, res, next) => {
   const { email, password } = req.body;
 
-  let existingUser;
+  let foundUser;
   try {
-    existingUser = await User.findOne({ email });
+    foundUser = await User.findOne({ email });
   } catch (error) {
     return next(new HttpError(error, 500));
   }
 
-  if (!existingUser || await !bcrypt.compare(password, existingUser.password)) {
+  if (!foundUser || await !bcrypt.compare(password, foundUser.password)) {
     return next(new HttpError('Wrong email or password', 401));
   }
 
-  res.json({
-    message: 'Signed in',
-    user: existingUser.toObject({ getters: true }),
-  });
+  let token;
+  try {
+    token = jwt.sign(
+      { userId: foundUser.id, name: foundUser.name },
+      process.env.JWT_SECRET,
+      { expiresIn: '1d' },
+    );
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.log(error);
+    return next(new HttpError('Signing in failed'));
+  }
+
+  res.json({ userId: foundUser.id, name: foundUser.name, token });
 };
 
 exports.getAllUsers = getAllUsers;

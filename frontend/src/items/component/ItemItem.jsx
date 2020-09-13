@@ -28,7 +28,12 @@ export default function ItemItem({
   const handleDelete = async () => {
     setIsModalShowed(false);
     try {
-      await sendRequest(`http://localhost:5501/api/items/${id}`, 'DELETE');
+      await sendRequest(
+        `http://localhost:5501/api/items/${id}`,
+        'DELETE',
+        null,
+        { Authorization: `Bearer ${auth.currentToken}` },
+      );
       deleteItem(id);
     } catch (err) {
       // eslint-disable-next-line no-console

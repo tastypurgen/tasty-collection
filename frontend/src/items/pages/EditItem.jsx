@@ -91,7 +91,10 @@ export default function EditItem() {
           description: formState.inputs.description.value,
           tags: splittedTags,
         }),
-        { 'Content-Type': 'application/json' },
+        {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${auth.currentToken}`,
+        },
       );
       history.push(`/${auth.userId}/items`);
     } catch (err) {

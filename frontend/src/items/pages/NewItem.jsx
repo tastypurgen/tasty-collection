@@ -58,7 +58,11 @@ export default function NewPlace() {
       formData.append('creatorId', auth.userId);
       formData.append('image', formState.inputs.image.value);
 
-      await sendRequest('http://localhost:5501/api/items', 'POST', formData);
+      await sendRequest(
+        'http://localhost:5501/api/items',
+        'POST',
+        formData,
+        { Authorization: `Bearer ${auth.currentToken}` });
 
       history.push('/');
     } catch (err) {

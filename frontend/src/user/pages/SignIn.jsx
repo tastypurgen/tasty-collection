@@ -43,7 +43,7 @@ export default function SignUp() {
         'Content-Type': 'application/json',
       });
 
-      auth.login(responeData.user.id);
+      auth.login(responeData.userId, responeData.token);
     } catch (err) {
       // eslint-disable-next-line no-console
       console.log('err: ', err);

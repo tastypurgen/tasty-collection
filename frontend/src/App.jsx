@@ -27,21 +27,21 @@ const messages = {
 
 export default function App() {
   const [locale, setLocale] = useState(localStorage.LOCALE || locales.EN);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [currentToken, setCurrentToken] = useState(null);
   const [userId, setUserId] = useState(null);
 
-  const login = useCallback((uid) => {
-    setIsLoggedIn(true);
+  const login = useCallback((uid, token) => {
+    setCurrentToken(token);
     setUserId(uid);
   }, []);
 
   const logout = useCallback(() => {
-    setIsLoggedIn(false);
+    setCurrentToken(null);
     setUserId(null);
   }, []);
 
   let ROUTES;
-  if (isLoggedIn) {
+  if (currentToken) {
     ROUTES = (
       <Switch>
         <Route exact path="/">
@@ -81,7 +81,7 @@ export default function App() {
 
   return (
     <AuthContext.Provider value={{
-      isLoggedIn, userId, login, logout,
+      isLoggedIn: !!currentToken, currentToken, userId, login, logout,
     }}
     >
       <Router>

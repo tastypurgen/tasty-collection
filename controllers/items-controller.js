@@ -110,6 +110,10 @@ const updateItem = async (req, res, next) => {
     return next(new HttpError(error, 500));
   }
 
+  if (item.creatorId.toString() !== req.userData.userId) {
+    return next(new HttpError('forbidden!', 403));
+  }
+
   item.title = title;
   item.description = description;
 
@@ -137,6 +141,10 @@ const deleteItem = async (req, res, next) => {
     return next(new HttpError('Place for this ID not found'), 404);
   }
 
+  if (item.creatorId.id !== req.userData.userId) {
+    return next(new HttpError('forbidden!', 403));
+  }
+
   const imagePath = item.image;
 
   try {
@@ -151,6 +159,7 @@ const deleteItem = async (req, res, next) => {
   } catch (error) {
     return next(new HttpError(error, 500));
   }
+  // eslint-disable-next-line no-console
   fs.unlink(imagePath, (err) => console.log(err));
   res.status(200).json({ message: 'Item deleted' });
 };

@@ -5,12 +5,15 @@ const fileUpload = require('../middleware/file-upload');
 const {
   getItemById, getItemsByUserId, createItem, updateItem, deleteItem,
 } = require('../controllers/items-controller');
+const authCheck = require('../middleware/auth-check');
 
 const router = Router();
 
 router.get('/:itemId', getItemById);
 
 router.get('/user/:userId', getItemsByUserId);
+
+router.use(authCheck);
 
 router.post(
   '/',
