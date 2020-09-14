@@ -51,7 +51,7 @@ const createItem = async (req, res, next) => {
   }
 
   const {
-    type, title, description, tags, creatorId,
+    type, title, description, tags,
   } = req.body;
 
   const createdItem = new Item({
@@ -60,13 +60,13 @@ const createItem = async (req, res, next) => {
     description,
     image: req.file.path,
     tags,
-    creatorId,
+    creatorId: req.userData.userId,
   });
 
   let user;
 
   try {
-    user = await User.findById(creatorId);
+    user = await User.findById(req.userData.userId);
   } catch (error) {
     return next(error);
   }
