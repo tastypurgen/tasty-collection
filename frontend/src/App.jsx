@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Route,
@@ -32,13 +32,23 @@ export default function App() {
 
   const login = useCallback((uid, token) => {
     setCurrentToken(token);
+    localStorage.USER_DATA = JSON.stringify({ id: uid, token });
     setUserId(uid);
   }, []);
 
   const logout = useCallback(() => {
     setCurrentToken(null);
+    localStorage.USER_DATA = null;
     setUserId(null);
   }, []);
+
+  useEffect(() => {
+    let storedData;
+    if (localStorage.USER_DATA) storedData = JSON.parse(localStorage.USER_DATA);
+    if (storedData && storedData.token) {
+      login(storedData.id, storedData.token);
+    }
+  }, [login]);
 
   let ROUTES;
   if (currentToken) {
