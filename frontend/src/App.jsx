@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   BrowserRouter as Router,
   Route,
@@ -19,6 +19,7 @@ import SignUp from './user/pages/SignUp';
 import SignIn from './user/pages/SignIn';
 import { AuthContext } from './shared/context/AuthContext';
 import Footer from './shared/components/Footer';
+import useAuthentication from './shared/hooks/useAuthentication';
 
 const messages = {
   [locales.EN]: en,
@@ -27,28 +28,9 @@ const messages = {
 
 export default function App() {
   const [locale, setLocale] = useState(localStorage.LOCALE || locales.EN);
-  const [currentToken, setCurrentToken] = useState(null);
-  const [userId, setUserId] = useState(null);
-
-  const login = useCallback((uid, token) => {
-    setCurrentToken(token);
-    localStorage.USER_DATA = JSON.stringify({ id: uid, token });
-    setUserId(uid);
-  }, []);
-
-  const logout = useCallback(() => {
-    setCurrentToken(null);
-    localStorage.USER_DATA = null;
-    setUserId(null);
-  }, []);
-
-  useEffect(() => {
-    let storedData;
-    if (localStorage.USER_DATA) storedData = JSON.parse(localStorage.USER_DATA);
-    if (storedData && storedData.token) {
-      login(storedData.id, storedData.token);
-    }
-  }, [login]);
+  const {
+    userId, currentToken, login, logout,
+  } = useAuthentication();
 
   let ROUTES;
   if (currentToken) {
