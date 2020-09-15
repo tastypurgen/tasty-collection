@@ -2,6 +2,7 @@
 const fs = require('fs');
 const { validationResult } = require('express-validator');
 const mongoose = require('mongoose');
+const cloudinary = require('cloudinary').v2;
 
 const HttpError = require('../models/HttpError');
 const Item = require('../models/Item');
@@ -54,11 +55,22 @@ const createItem = async (req, res, next) => {
     type, title, description, tags,
   } = req.body;
 
+  let imagePath;
+  try {
+    const uploadResponse = await cloudinary.uploader.upload(req.file.path, { folder: 'tasty-collection/items' });
+
+    imagePath = uploadResponse.secure_url;
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.error(err);
+    return next(new HttpError(err, 500));
+  }
+
   const createdItem = new Item({
     type,
     title,
     description,
-    image: req.file.path,
+    image: imagePath,
     tags,
     creatorId: req.userData.userId,
   });

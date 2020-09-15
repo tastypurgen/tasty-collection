@@ -12,7 +12,7 @@ export default function UserItem({
 
   return (
     <Card className="text-center user-item">
-      <Card.Img src={`http://localhost:5501/${image}`} alt={name} />
+      <Card.Img src={image} alt={name} />
       <Card.Body>
         <Card.Title>{name}</Card.Title>
         <Link to={`/${id}/items`}>

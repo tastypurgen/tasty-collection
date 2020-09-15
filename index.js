@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 require('dotenv').config();
 const fs = require('fs');
-const path = require('path');
 const express = require('express');
 const mongoose = require('mongoose');
 
@@ -9,10 +8,10 @@ const itemsRoutes = require('./routes/items-routes');
 const HttpError = require('./models/HttpError');
 const usersRoutes = require('./routes/users-routes');
 
+require('./config/cloudinary-config');
+
 const app = express();
 app.use(express.json());
-
-app.use('/uploads/images', express.static(path.join('uploads', 'images')));
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');

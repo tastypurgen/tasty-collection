@@ -2,6 +2,7 @@
 const { validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const cloudinary = require('cloudinary').v2;
 
 const HttpError = require('../models/HttpError');
 const User = require('../models/User');
@@ -47,10 +48,24 @@ const createUser = async (req, res, next) => {
     console.log(error);
   }
 
+  let imagePath;
+  try {
+    const uploadResponse = await cloudinary.uploader.upload(req.file.path, {
+      folder: 'tasty-collection/users',
+      public_id: name,
+    });
+
+    imagePath = uploadResponse.secure_url;
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.error(err);
+    return next(new HttpError(err, 500));
+  }
+
   const createdUser = new User({
     name,
     email,
-    image: req.file.path,
+    image: imagePath,
     password: hashedPassword,
     isAdmin: false,
     items: [],
@@ -64,7 +79,7 @@ const createUser = async (req, res, next) => {
 
   let token;
   try {
-    token = jwt.sign({ userId: createUser.id, name: createUser.name }, process.env.JWT_SECRET, { expiresIn: '1d' });
+    token = jwt.sign({ userId: createdUser.id, name: createdUser.name }, process.env.JWT_SECRET, { expiresIn: '1d' });
   } catch (error) {
     // eslint-disable-next-line no-console
     console.log(error);
