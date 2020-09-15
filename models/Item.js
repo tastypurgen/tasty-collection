@@ -4,6 +4,7 @@ const { Schema } = mongoose;
 
 const ItemSchema = new Schema({
   type: { type: String, required: true },
+  publicId: { type: String, required: true },
   title: { type: String, required: true },
   description: { type: String, required: true },
   image: { type: String, required: true },

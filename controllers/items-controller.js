@@ -1,5 +1,4 @@
 // const { v4: uuid } = require('uuid');
-const fs = require('fs');
 const { validationResult } = require('express-validator');
 const mongoose = require('mongoose');
 const cloudinary = require('cloudinary').v2;
@@ -56,10 +55,12 @@ const createItem = async (req, res, next) => {
   } = req.body;
 
   let imagePath;
+  let publicId;
   try {
     const uploadResponse = await cloudinary.uploader.upload(req.file.path, { folder: 'tasty-collection/items' });
 
     imagePath = uploadResponse.secure_url;
+    publicId = uploadResponse.public_id;
   } catch (err) {
     // eslint-disable-next-line no-console
     console.error(err);
@@ -68,6 +69,7 @@ const createItem = async (req, res, next) => {
 
   const createdItem = new Item({
     type,
+    publicId,
     title,
     description,
     image: imagePath,
@@ -157,8 +159,6 @@ const deleteItem = async (req, res, next) => {
     return next(new HttpError('forbidden!', 403));
   }
 
-  const imagePath = item.image;
-
   try {
     const session = await mongoose.startSession();
     session.startTransaction();
@@ -171,8 +171,15 @@ const deleteItem = async (req, res, next) => {
   } catch (error) {
     return next(new HttpError(error, 500));
   }
-  // eslint-disable-next-line no-console
-  fs.unlink(imagePath, (err) => console.log(err));
+
+  try {
+    await cloudinary.uploader.destroy(item.publicId);
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.error(err);
+    return next(new HttpError(err, 500));
+  }
+
   res.status(200).json({ message: 'Item deleted' });
 };
 
