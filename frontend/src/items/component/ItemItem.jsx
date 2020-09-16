@@ -29,7 +29,7 @@ export default function ItemItem({
     setIsModalShowed(false);
     try {
       await sendRequest(
-        `http://localhost:5501/api/items/${id}`,
+        `${process.env.REACT_APP_BACKEND_URL}/items/${id}`,
         'DELETE',
         null,
         { Authorization: `Bearer ${auth.currentToken}` },

@@ -45,7 +45,7 @@ export default function SignUp() {
       formData.append('password', formState.inputs.password.value);
       formData.append('image', formState.inputs.image.value);
       const responeData = await sendRequest(
-        'http://localhost:5501/api/users/signup',
+        `${process.env.REACT_APP_BACKEND_URL}/users/signup`,
         'POST',
         formData,
       );

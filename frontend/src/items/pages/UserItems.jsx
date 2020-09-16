@@ -14,7 +14,7 @@ export default function UserItems() {
     const fetchItems = async () => {
       try {
         const responseData = await sendRequest(
-          `http://localhost:5501/api/items/user/${userId}`,
+          `${process.env.REACT_APP_BACKEND_URL}/items/user/${userId}`,
         );
         setLoadedItems(responseData.items);
       } catch (err) {

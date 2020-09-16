@@ -14,7 +14,7 @@ export default function Users() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const responseData = await axios.get('http://localhost:5501/api/users/');
+        const responseData = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/users/`);
 
         setLoadedUsers(responseData.data.users);
       } catch (err) {

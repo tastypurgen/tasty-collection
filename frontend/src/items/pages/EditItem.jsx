@@ -46,7 +46,7 @@ export default function EditItem() {
     const fetchItems = async () => {
       try {
         const responseData = await sendRequest(
-          `http://localhost:5501/api/items/${itemId}`,
+          `${process.env.REACT_APP_BACKEND_URL}/items/${itemId}`,
         );
         setLoadedItem(responseData.item);
         setFormData({
@@ -83,7 +83,7 @@ export default function EditItem() {
     }
     try {
       await sendRequest(
-        `http://localhost:5501/api/items/${itemId}`,
+        `${process.env.REACT_APP_BACKEND_URL}/items/${itemId}`,
         'PATCH',
         JSON.stringify({
           type: formState.inputs.type.value,

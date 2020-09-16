@@ -36,12 +36,15 @@ export default function SignUp() {
     event.preventDefault();
 
     try {
-      const responeData = await sendRequest('http://localhost:5501/api/users/signin', 'POST', JSON.stringify({
-        email: formState.inputs.email.value,
-        password: formState.inputs.password.value,
-      }), {
-        'Content-Type': 'application/json',
-      });
+      const responeData = await sendRequest(
+        `${process.env.REACT_APP_BACKEND_URL}/users/signin`,
+        'POST',
+        JSON.stringify({
+          email: formState.inputs.email.value,
+          password: formState.inputs.password.value,
+        }),
+        { 'Content-Type': 'application/json' },
+      );
 
       auth.login(responeData.userId, responeData.token);
     } catch (err) {

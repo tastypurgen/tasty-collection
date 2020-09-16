@@ -58,7 +58,7 @@ export default function NewPlace() {
       formData.append('image', formState.inputs.image.value);
 
       await sendRequest(
-        'http://localhost:5501/api/items',
+        `${process.env.REACT_APP_BACKEND_URL}/items`,
         'POST',
         formData,
         { Authorization: `Bearer ${auth.currentToken}` },
