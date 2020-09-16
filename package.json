@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "react": "npm start --prefix frontend",
-    "start": "concurrently \"nodemon index.js\" \"npm run react\""
+    "start": "concurrently \"nodemon index.js\" \"npm run react\"",
+    "prod": "node index.js"
   },
   "keywords": [
     "mern",
