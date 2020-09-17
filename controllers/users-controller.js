@@ -51,7 +51,9 @@ const createUser = async (req, res, next) => {
   let imagePath;
   try {
     const uploadResponse = await cloudinary.uploader.upload(req.file.path, {
-      folder: 'tasty-collection/users',
+      folder: process.env.NODE_ENV
+        ? 'tasty-collection/users'
+        : 'tasty-collection-test/users',
       public_id: name,
     });
 

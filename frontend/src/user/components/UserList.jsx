@@ -1,18 +1,31 @@
 import React from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
+import {
+  Container, Row, Col, Spinner,
+} from 'react-bootstrap';
 
 import UserItem from './UserItem';
 import './UserList.scss';
 
 export default function UserList({ users, error }) {
-  if (!users || users.length === 0) {
+  if (!users) {
+    return (
+      <Container>
+        <Spinner
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(50%)',
+          }}
+          animation="grow"
+        />
+      </Container>
+    );
+  }
+  if (error) {
     return (
       <Container className="text-center">
-        {
-          error
-            ? <h3>{error}</h3>
-            : <h2>No users found :(</h2>
-        }
+        <h2>No users found</h2>
       </Container>
     );
   }

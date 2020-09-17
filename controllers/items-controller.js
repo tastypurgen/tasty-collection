@@ -57,7 +57,11 @@ const createItem = async (req, res, next) => {
   let imagePath;
   let publicId;
   try {
-    const uploadResponse = await cloudinary.uploader.upload(req.file.path, { folder: 'tasty-collection/items' });
+    const uploadResponse = await cloudinary.uploader.upload(req.file.path, {
+      folder: process.env.NODE_ENV
+        ? 'tasty-collection/items'
+        : 'tasty-collection-test/items',
+    });
 
     imagePath = uploadResponse.secure_url;
     publicId = uploadResponse.public_id;
