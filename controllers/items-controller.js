@@ -78,6 +78,7 @@ const createItem = async (req, res, next) => {
     description,
     image: imagePath,
     tags,
+    likes: 0,
     creatorId: req.userData.userId,
   });
 
