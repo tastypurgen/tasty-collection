@@ -29,5 +29,19 @@
   "ItemItem.Cancel": "Отмена",
   "ItemItem.Delete": "Удалить",
   "UserItem.Item": "шт.",
-  "UserItem.Items": "шт."
+  "UserItem.Items": "шт.",
+  "SignIn.SignIn": "Вход",
+  "SignIn.Email": "E-mail",
+  "SignIn.Password": "Пароль",
+  "SignUp.SignUp": "Регистрация",
+  "SignUp.Name": "Имя",
+  "SignUp.Email": "E-mail",
+  "SignUp.Password": "Пароль",
+  "SignUp.Uniq": "E-mail уже занят",
+  "SignUp.Loading": "Загрузка...",
+  "SignUp.InvalidPassword": "Неверный пароль",
+  "SignUp.InvalidEmail": "Неверный e-mail",
+  "SignUp.InvalidName": "Неверное имя",
+  "ImageUploader.ChooseAnImage": "Выберите картинку",
+  "ImageUploader.ChooseImage": "Загрузить"
 }

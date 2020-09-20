@@ -60,16 +60,17 @@ export default function SignUp() {
   return (
     <Container className="d-flex justify-content-center" style={{ maxWidth: '600px' }}>
       <Jumbotron style={{ width: '100%', maxWidth: '600px' }}>
-        <h2 className="text-center">Sign Up</h2>
+        <h2 className="text-center">{intl({ id: 'SignUp.SignUp' })}</h2>
         <Form style={{ width: '100%', maxWidth: '600px' }} onSubmit={submitHandler}>
           <ImageUploader id="image" center onInput={inputHandler} />
+
           <Input
             id="name"
             element="input"
             type="text"
-            label="Name"
+            label={intl({ id: 'SignUp.Name' })}
             validators={[VALIDATOR_REQUIRE()]}
-            errorText="Invalid Name"
+            errorText={intl({ id: 'SignUp.InvalidName' })}
             onInput={inputHandler}
             initialValue={formState.inputs.name.value}
             initialValid={formState.inputs.name.isValid}
@@ -78,25 +79,25 @@ export default function SignUp() {
             id="email"
             element="input"
             type="email"
-            label="Email"
+            label={intl({ id: 'SignUp.Email' })}
             validators={[VALIDATOR_REQUIRE(), VALIDATOR_EMAIL()]}
-            errorText="Invalid Email"
+            errorText={intl({ id: 'SignUp.InvalidEmail' })}
             onInput={inputHandler}
             initialValue={formState.inputs.email.value}
             initialValid={formState.inputs.email.isValid}
           />
           {error && (
             <Alert variant="info">
-              The email must be unique
+              {intl({ id: 'SignUp.Uniq' })}
             </Alert>
           )}
           <Input
             id="password"
             element="input"
             type="password"
-            label="Password"
+            label={intl({ id: 'SignUp.Password' })}
             validators={[VALIDATOR_REQUIRE()]}
-            errorText="Invalid Password"
+            errorText={intl({ id: 'SignUp.InvalidPassword' })}
             onInput={inputHandler}
             initialValue={formState.inputs.password.value}
             initialValid={formState.inputs.password.isValid}
@@ -115,7 +116,7 @@ export default function SignUp() {
                   role="status"
                   aria-hidden="true"
                 />
-                Loading...
+                {intl({ id: 'SignUp.Loading' })}
               </Button>
             )
             : (
