@@ -48,6 +48,7 @@ export default function ItemList({
               title={item.title}
               description={item.description}
               tags={item.tags}
+              likes={item.likes}
               creatorId={item.creatorId}
               deleteItem={deleteItem}
             />
