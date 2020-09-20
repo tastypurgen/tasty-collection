@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import {
-  Container, Form, Button, Spinner,
+  Container, Form, Button, Spinner, Jumbotron, Image,
 } from 'react-bootstrap';
 import { useIntl } from 'react-intl';
 
@@ -130,57 +130,61 @@ export default function EditItem() {
   return (
     <Container style={{ maxWidth: '600px' }}>
       {!isLoading && loadedItem && (
-        <Form onSubmit={submitHandler}>
-          <Input
-            id="type"
-            element="select"
-            label={intl({ id: 'NewItem.Collection' })}
-            validators={[VALIDATOR_REQUIRE()]}
-            errorText={intl({ id: 'NewItem.CollectionError' })}
-            onInput={inputHandler}
-            initialValue={loadedItem.type}
-            initialValid
-          />
-          <Input
-            id="title"
-            element="input"
-            type="text"
-            label={intl({ id: 'NewItem.Title' })}
-            validators={[VALIDATOR_REQUIRE()]}
-            errorText={intl({ id: 'NewItem.TitleError' })}
-            onInput={inputHandler}
-            initialValue={loadedItem.title}
-            initialValid
-          />
-          <Input
-            id="description"
-            element="textarea"
-            label={intl({ id: 'NewItem.Description' })}
-            validators={[VALIDATOR_MINLENGTH(5)]}
-            errorText={intl({ id: 'NewItem.DescriptionError' })}
-            onInput={inputHandler}
-            initialValue={loadedItem.description}
-            initialValid
-          />
-          <Input
-            id="tags"
-            element="input"
-            label={intl({ id: 'NewItem.Tags' })}
-            validators={[VALIDATOR_REQUIRE()]}
-            errorText={intl({ id: 'NewItem.TagsError' })}
-            onInput={inputHandler}
-            initialValue={loadedItem.tags[0].value}
-            initialValid
-          />
-          <Button
-            type="submit"
-            variant="info"
-            block
-            disabled={!formState.isValid}
-          >
-            {intl({ id: 'NewItem.Submit' })}
-          </Button>
-        </Form>
+
+        <Jumbotron style={{ width: '100%', maxWidth: '600px' }}>
+          <Image className="w-100 mb-3" src={loadedItem.image} alt={loadedItem.title} />
+          <Form onSubmit={submitHandler}>
+            <Input
+              id="type"
+              element="select"
+              label={intl({ id: 'NewItem.Collection' })}
+              validators={[VALIDATOR_REQUIRE()]}
+              errorText={intl({ id: 'NewItem.CollectionError' })}
+              onInput={inputHandler}
+              initialValue={loadedItem.type}
+              initialValid
+            />
+            <Input
+              id="title"
+              element="input"
+              type="text"
+              label={intl({ id: 'NewItem.Title' })}
+              validators={[VALIDATOR_REQUIRE()]}
+              errorText={intl({ id: 'NewItem.TitleError' })}
+              onInput={inputHandler}
+              initialValue={loadedItem.title}
+              initialValid
+            />
+            <Input
+              id="description"
+              element="textarea"
+              label={intl({ id: 'NewItem.Description' })}
+              validators={[VALIDATOR_MINLENGTH(5)]}
+              errorText={intl({ id: 'NewItem.DescriptionError' })}
+              onInput={inputHandler}
+              initialValue={loadedItem.description}
+              initialValid
+            />
+            <Input
+              id="tags"
+              element="input"
+              label={intl({ id: 'NewItem.Tags' })}
+              validators={[VALIDATOR_REQUIRE()]}
+              errorText={intl({ id: 'NewItem.TagsError' })}
+              onInput={inputHandler}
+              initialValue={loadedItem.tags[0].value}
+              initialValid
+            />
+            <Button
+              type="submit"
+              variant="info"
+              block
+              disabled={!formState.isValid}
+            >
+              {intl({ id: 'NewItem.Submit' })}
+            </Button>
+          </Form>
+        </Jumbotron>
       )}
     </Container>
   );
