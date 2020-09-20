@@ -1,0 +1,32 @@
+.heart {
+  position: relative;
+
+  .HeartAnimation {
+    padding-top: 2em;
+    margin-left: -17px;
+    background-image: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/66955/web_heart_animation.png");
+    background-repeat: no-repeat;
+    background-size: 2900%;
+    background-position: left;
+    width: 50px;
+    cursor: pointer;
+  }
+
+  .animate {
+    animation: heart-burst 0.8s steps(28) forwards;
+  }
+
+  @keyframes heart-burst {
+    0% {
+      background-position: left;
+    }
+    100% {
+      background-position: right;
+    }
+  }
+  .number {
+    position: absolute;
+    top: 4px;
+    left: 27px;
+  }
+}

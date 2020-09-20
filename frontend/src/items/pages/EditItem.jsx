@@ -63,7 +63,7 @@ export default function EditItem() {
             isValid: true,
           },
           tags: {
-            value: responseData.item.tags,
+            value: responseData.item.tags.join(', '),
             isValid: true,
           },
         }, true);
@@ -77,10 +77,6 @@ export default function EditItem() {
 
   const submitHandler = async (event) => {
     event.preventDefault();
-    let splittedTags = loadedItem.tags.value;
-    if (typeof splittedTags === 'string') {
-      splittedTags = splittedTags.split(',').map((tag) => tag.trim());
-    }
     try {
       await sendRequest(
         `${process.env.REACT_APP_BACKEND_URL}/items/${itemId}`,
@@ -89,7 +85,7 @@ export default function EditItem() {
           type: formState.inputs.type.value,
           title: formState.inputs.title.value,
           description: formState.inputs.description.value,
-          tags: splittedTags,
+          tags: formState.inputs.tags.value,
         }),
         {
           'Content-Type': 'application/json',
@@ -172,7 +168,7 @@ export default function EditItem() {
               validators={[VALIDATOR_REQUIRE()]}
               errorText={intl({ id: 'NewItem.TagsError' })}
               onInput={inputHandler}
-              initialValue={loadedItem.tags[0].value}
+              initialValue={loadedItem.tags.join(', ')}
               initialValid
             />
             <Button

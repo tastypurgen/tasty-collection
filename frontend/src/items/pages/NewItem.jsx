@@ -47,14 +47,13 @@ export default function NewPlace() {
 
   const submitHandler = async (event) => {
     event.preventDefault();
-    const splittedTags = formState.inputs.tags.value.split(',').map((tag) => tag.trim());
     const currentType = formState.inputs.type.value;
     try {
       const formData = new FormData();
       formData.append('type', currentType);
       formData.append('title', formState.inputs.title.value);
       formData.append('description', formState.inputs.description.value);
-      formData.append('tags', splittedTags);
+      formData.append('tags', formState.inputs.tags.value);
       formData.append('image', formState.inputs.image.value);
 
       await sendRequest(

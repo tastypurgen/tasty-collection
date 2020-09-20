@@ -6,10 +6,11 @@ import { Link } from 'react-router-dom';
 import ItemTags from './ItemTags';
 import { AuthContext } from '../../shared/context/AuthContext';
 import { useHttpClient } from '../../shared/hooks/useHttpClient';
+import Heart from '../../shared/components/Heart';
 
 export default function ItemItem({
   // eslint-disable-next-line no-unused-vars
-  id, image, type, title, description, tags, creatorId, deleteItem,
+  id, image, type, title, description, tags, creatorId, deleteItem, likes,
 }) {
   const [isModalShowed, setIsModalShowed] = useState(false);
   const { sendRequest } = useHttpClient();
@@ -69,6 +70,7 @@ export default function ItemItem({
           <Card.Title>{title}</Card.Title>
           <Card.Text>{description}</Card.Text>
           <ItemTags tags={tags} />
+          <Heart likes={likes} />
           {auth.userId === creatorId && (
             <Link to={`/items/${id}`}>
               <Button className="mt-1" variant="info" size="sm">{intl({ id: 'ItemItem.Edit' })}</Button>
