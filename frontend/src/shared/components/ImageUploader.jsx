@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Form, Button } from 'react-bootstrap';
+import { useIntl } from 'react-intl';
 
 import './ImageUpload.scss';
 
@@ -8,6 +9,7 @@ export default function ImageUploader({ center, id, onInput }) {
   const [previewUrl, setPreviewUrl] = useState(null);
   const [isValid, setIsValid] = useState(false);
 
+  const intl = useIntl().formatMessage;
   const filePickerElement = useRef();
 
   useEffect(() => {
@@ -51,9 +53,9 @@ export default function ImageUploader({ center, id, onInput }) {
         <div className="image-upload__preview">
           {previewUrl
             ? <img src={previewUrl} alt="Preview" />
-            : <p>Choose an image</p>}
+            : <p>{intl({ id: 'ImageUploader.ChooseAnImage' })}</p>}
         </div>
-        <Button type="button" variant="secondary" onClick={pickImageHandler}>Choose Image</Button>
+        <Button type="button" variant="secondary" onClick={pickImageHandler}>{intl({ id: 'ImageUploader.ChooseImage' })}</Button>
       </div>
     </Form.Group>
   );

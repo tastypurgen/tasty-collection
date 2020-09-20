@@ -29,5 +29,19 @@
   "ItemItem.Cancel": "Cancel",
   "ItemItem.Delete": "Delete",
   "UserItem.Item": "Item",
-  "UserItem.Items": "Items"
+  "UserItem.Items": "Items",
+  "SignIn.SignIn": "Sign In",
+  "SignIn.Email": "Email",
+  "SignIn.Password": "Password",
+  "SignUp.SignUp": "Sign Up",
+  "SignUp.Name": "Name",
+  "SignUp.Email": "Email",
+  "SignUp.Password": "Password",
+  "SignUp.Uniq": "The email must be unique",
+  "SignUp.Loading": "Loading...",
+  "SignUp.InvalidPassword": "Invalid Password",
+  "SignUp.InvalidEmail": "Invalid Email",
+  "SignUp.InvalidName": "Invalid Name",
+  "ImageUploader.ChooseAnImage": "Choose an image",
+  "ImageUploader.ChooseImage": "Choose image"
 }

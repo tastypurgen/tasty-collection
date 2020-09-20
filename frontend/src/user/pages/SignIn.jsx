@@ -56,13 +56,13 @@ export default function SignUp() {
   return (
     <Container className="d-flex justify-content-center" style={{ maxWidth: '600px' }}>
       <Jumbotron style={{ width: '100%', maxWidth: '600px' }}>
-        <h2 className="text-center">Sign In</h2>
+        <h2 className="text-center">{intl({ id: 'SignIn.SignIn' })}</h2>
         <Form style={{ width: '100%', maxWidth: '600px' }} onSubmit={submitHandler}>
           <Input
             id="email"
             element="input"
             type="email"
-            label="Email"
+            label={intl({ id: 'SignIn.Email' })}
             validators={[VALIDATOR_REQUIRE(), VALIDATOR_EMAIL()]}
             errorText="Invalid Email"
             onInput={inputHandler}
@@ -73,7 +73,7 @@ export default function SignUp() {
             id="password"
             element="input"
             type="password"
-            label="Password"
+            label={intl({ id: 'SignIn.Password' })}
             validators={[VALIDATOR_REQUIRE()]}
             errorText="Invalid Password"
             onInput={inputHandler}

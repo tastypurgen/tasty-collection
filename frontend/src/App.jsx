@@ -83,17 +83,17 @@ export default function App() {
           defaultLocale={locale}
         >
 
-          <Header
+          <Header />
+
+          {ROUTES}
+
+          <Footer
             selectedLocale={locale}
             onLocaleChange={(event) => {
               localStorage.LOCALE = event.target.value;
               setLocale(event.target.value);
             }}
           />
-
-          {ROUTES}
-
-          <Footer />
 
         </IntlProvider>
       </Router>

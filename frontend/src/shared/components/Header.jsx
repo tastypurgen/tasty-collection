@@ -64,7 +64,7 @@ export default function Header() {
         )}
 
         {auth.isLoggedIn && (
-          <Link className="ml-2" to="/logout">
+          <Link className="m-1" to="/logout">
             <Button onClick={auth.logout} variant="outline-light">
               <FormattedMessage id="Header.Logout" />
             </Button>

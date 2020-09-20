@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import {
-  Button, Form, Container, Spinner, Alert,
+  Button, Form, Container, Spinner, Alert, Jumbotron,
 } from 'react-bootstrap';
 import { useIntl } from 'react-intl';
 import { useHistory } from 'react-router-dom';
@@ -73,74 +73,77 @@ export default function NewPlace() {
 
   return (
     <Container style={{ maxWidth: '600px' }}>
-      <Form onSubmit={submitHandler}>
-        <ImageUploader id="image" onInput={inputHandler} />
-        <Input
-          id="type"
-          element="select"
-          label={intl({ id: 'NewItem.Collection' })}
-          validators={[VALIDATOR_REQUIRE()]}
-          errorText={intl({ id: 'NewItem.CollectionError' })}
-          onInput={inputHandler}
-        />
-        <Input
-          id="title"
-          element="input"
-          type="text"
-          label={intl({ id: 'NewItem.Title' })}
-          validators={[VALIDATOR_REQUIRE()]}
-          errorText={intl({ id: 'NewItem.TitleError' })}
-          onInput={inputHandler}
-        />
-        <Input
-          id="description"
-          element="textarea"
-          label={intl({ id: 'NewItem.Description' })}
-          validators={[VALIDATOR_MINLENGTH(5)]}
-          errorText={intl({ id: 'NewItem.DescriptionError' })}
-          onInput={inputHandler}
-        />
-        <Input
-          id="tags"
-          element="input"
-          label={intl({ id: 'NewItem.Tags' })}
-          validators={[VALIDATOR_REQUIRE()]}
-          errorText={intl({ id: 'NewItem.TagsError' })}
-          onInput={inputHandler}
-        />
-        {isLoading
-          ? (
-            <Button
-              variant="info"
-              block
-              disabled
-            >
-              <Spinner
-                as="span"
-                animation="grow"
-                size="sm"
-                role="status"
-                aria-hidden="true"
-              />
-              Loading...
-            </Button>
-          )
-          : (
-            <Button
-              type="submit"
-              variant="info"
-              block
-              disabled={!formState.isValid}
-            >
-              {intl({ id: 'NewItem.Submit' })}
-            </Button>
+      <Jumbotron style={{ width: '100%', maxWidth: '600px' }}>
+        <Form onSubmit={submitHandler}>
+          <ImageUploader id="image" center onInput={inputHandler} />
+
+          <Input
+            id="type"
+            element="select"
+            label={intl({ id: 'NewItem.Collection' })}
+            validators={[VALIDATOR_REQUIRE()]}
+            errorText={intl({ id: 'NewItem.CollectionError' })}
+            onInput={inputHandler}
+          />
+          <Input
+            id="title"
+            element="input"
+            type="text"
+            label={intl({ id: 'NewItem.Title' })}
+            validators={[VALIDATOR_REQUIRE()]}
+            errorText={intl({ id: 'NewItem.TitleError' })}
+            onInput={inputHandler}
+          />
+          <Input
+            id="description"
+            element="textarea"
+            label={intl({ id: 'NewItem.Description' })}
+            validators={[VALIDATOR_MINLENGTH(5)]}
+            errorText={intl({ id: 'NewItem.DescriptionError' })}
+            onInput={inputHandler}
+          />
+          <Input
+            id="tags"
+            element="input"
+            label={intl({ id: 'NewItem.Tags' })}
+            validators={[VALIDATOR_REQUIRE()]}
+            errorText={intl({ id: 'NewItem.TagsError' })}
+            onInput={inputHandler}
+          />
+          {isLoading
+            ? (
+              <Button
+                variant="info"
+                block
+                disabled
+              >
+                <Spinner
+                  as="span"
+                  animation="grow"
+                  size="sm"
+                  role="status"
+                  aria-hidden="true"
+                />
+                Loading...
+              </Button>
+            )
+            : (
+              <Button
+                type="submit"
+                variant="info"
+                block
+                disabled={!formState.isValid}
+              >
+                {intl({ id: 'NewItem.Submit' })}
+              </Button>
+            )}
+          {error && (
+            <Alert variant="info">
+              Please check your data
+            </Alert>
           )}
-        {error && (
-          <Alert variant="info">
-            Please check your data
-          </Alert>
-        )}
-      </Form>
+        </Form>
+      </Jumbotron>
     </Container>
   );
 }
