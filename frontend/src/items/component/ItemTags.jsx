@@ -11,7 +11,7 @@ export default function ItemTags({ tags }) {
           key={tag}
           style={{ marginRight: '3px' }}
         >
-          {tag.value}
+          {tag}
         </Badge>
       ))}
     </div>

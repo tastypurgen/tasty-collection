@@ -6,6 +6,7 @@ const cloudinary = require('cloudinary').v2;
 const HttpError = require('../models/HttpError');
 const Item = require('../models/Item');
 const User = require('../models/User');
+const splitTags = require('../utils/splitTags');
 
 const getItemById = async (req, res, next) => {
   const { itemId } = req.params;
@@ -77,7 +78,7 @@ const createItem = async (req, res, next) => {
     title,
     description,
     image: imagePath,
-    tags,
+    tags: splitTags(tags),
     likes: 0,
     creatorId: req.userData.userId,
   });
@@ -118,7 +119,7 @@ const updateItem = async (req, res, next) => {
     return next(new HttpError('Please check entered data', 422));
   }
 
-  const { title, description } = req.body;
+  const { title, description, tags } = req.body;
   const { itemId } = req.params;
 
   let item;
@@ -135,6 +136,7 @@ const updateItem = async (req, res, next) => {
 
   item.title = title;
   item.description = description;
+  item.tags = splitTags(tags);
 
   try {
     await item.save();
