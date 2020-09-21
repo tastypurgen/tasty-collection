@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import {
-  Button,
-  Container, Image, Jumbotron, Modal, Spinner,
+  Button, Col, Container, Image, Jumbotron, Modal, Row, Spinner,
 } from 'react-bootstrap';
 import { Link, useParams, useHistory } from 'react-router-dom';
 import { useIntl } from 'react-intl';
@@ -101,20 +100,33 @@ export default function ItemDescription() {
 
       <Container style={{ maxWidth: '800px' }}>
         <Jumbotron className="text-center" style={{ width: '100%', maxWidth: '800px' }}>
-          <Image className="mw-100 mb-3" style={{ borderRadius: '5px', maxHeight: '400px' }} src={loadedItem.image} alt={loadedItem.title} />
-          {auth.userId && <Heart zoom likes={loadedItem.likes} itemId={loadedItem.id} />}
-          <h2>{loadedItem.title}</h2>
-          <h4>{loadedItem.description}</h4>
-          <ItemTags tags={loadedItem.tags} />
 
-          {auth.userId === loadedItem.creatorId && (
-            <Link to={`/items/${loadedItem.id}/edit`}>
-              <Button className="m-2" variant="info" size="sm">{intl({ id: 'ItemItem.Edit' })}</Button>
-            </Link>
-          )}
-          {auth.userId === loadedItem.creatorId && (
-            <Button onClick={confirmDelete} className="m-2" variant="danger" size="sm">{intl({ id: 'ItemItem.Delete' })}</Button>
-          )}
+          <Row>
+            <Col>
+              <div className="right">
+                <Image className="mw-100 mb-3" style={{ borderRadius: '5px', maxHeight: '400px' }} src={loadedItem.image} alt={loadedItem.title} />
+                {auth.userId && <Heart zoom likes={loadedItem.likes} itemId={loadedItem.id} />}
+              </div>
+            </Col>
+
+            <Col>
+              <div className="left">
+                <h2>{loadedItem.title}</h2>
+                <h5>{loadedItem.description}</h5>
+                <ItemTags tags={loadedItem.tags} />
+
+                {auth.userId === loadedItem.creatorId && (
+                  <Link to={`/items/${loadedItem.id}/edit`}>
+                    <Button className="m-2" variant="info" size="sm">{intl({ id: 'ItemItem.Edit' })}</Button>
+                  </Link>
+                )}
+                {auth.userId === loadedItem.creatorId && (
+                  <Button onClick={confirmDelete} className="m-2" variant="danger" size="sm">{intl({ id: 'ItemItem.Delete' })}</Button>
+                )}
+              </div>
+            </Col>
+          </Row>
+
         </Jumbotron>
       </Container>
     </>
