@@ -70,7 +70,7 @@ export default function ItemItem({
           <Card.Title>{title}</Card.Title>
           <Card.Text>{description}</Card.Text>
           <ItemTags tags={tags} />
-          <Heart likes={likes} />
+          <Heart likes={likes} itemId={id} />
           {auth.userId === creatorId && (
             <Link to={`/items/${id}`}>
               <Button className="mt-1" variant="info" size="sm">{intl({ id: 'ItemItem.Edit' })}</Button>
