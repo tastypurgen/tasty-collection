@@ -35,6 +35,7 @@ export default function UserItems() {
       items={loadedItems}
       error={error}
       deleteItem={deleteItem}
+      commonList
     />
   );
 }

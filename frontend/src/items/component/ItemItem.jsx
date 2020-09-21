@@ -10,7 +10,7 @@ import Heart from '../../shared/components/Heart';
 
 export default function ItemItem({
   // eslint-disable-next-line no-unused-vars
-  id, image, type, title, description, tags, creatorId, deleteItem, likes,
+  id, image, type, title, description, tags, creatorId, deleteItem, likes, commonList,
 }) {
   const [isModalShowed, setIsModalShowed] = useState(false);
   const { sendRequest } = useHttpClient();
@@ -67,16 +67,19 @@ export default function ItemItem({
       <Card>
         <Card.Img src={image} alt={title} />
         <Card.Body>
-          <Card.Title>{title}</Card.Title>
+
+          <Link to={`/items/${id}`}>
+            <Card.Title>{title}</Card.Title>
+          </Link>
           <Card.Text>{description}</Card.Text>
           <ItemTags tags={tags} />
-          <Heart likes={likes} itemId={id} />
-          {auth.userId === creatorId && (
-            <Link to={`/items/${id}`}>
+          {auth.userId && <Heart likes={likes} itemId={id} />}
+          {auth.userId === creatorId && !commonList && (
+            <Link to={`/items/${id}/edit`}>
               <Button className="mt-1" variant="info" size="sm">{intl({ id: 'ItemItem.Edit' })}</Button>
             </Link>
           )}
-          {auth.userId === creatorId && (
+          {auth.userId === creatorId && !commonList && (
             <Button onClick={confirmDelete} className="mt-1" variant="danger" size="sm">{intl({ id: 'ItemItem.Delete' })}</Button>
           )}
         </Card.Body>

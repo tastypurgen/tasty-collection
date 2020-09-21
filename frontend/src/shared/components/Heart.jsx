@@ -6,7 +6,7 @@ import './Heart.scss';
 import { useHttpClient } from '../hooks/useHttpClient';
 import { AuthContext } from '../context/AuthContext';
 
-export default function Heart({ likes, itemId }) {
+export default function Heart({ likes, itemId, zoom }) {
   const [isLiked, setIsLiked] = useState(false);
   const [likesNumber, setLikesNumber] = useState(likes.length);
 
@@ -43,8 +43,13 @@ export default function Heart({ likes, itemId }) {
       <div
         onClick={handleClick}
         className={isLiked ? 'HeartAnimation animate' : 'HeartAnimation'}
+        style={zoom && { marginLeft: '44%', backgroundSize: '2900%', transform: 'scale(1.5)' }}
       />
-      <div className="number">{likesNumber}</div>
+      <div
+        className="number"
+        style={zoom && { marginLeft: '48%', transform: 'scale(1.5)' }}
+      >{likesNumber}
+      </div>
     </div>
   );
 }
