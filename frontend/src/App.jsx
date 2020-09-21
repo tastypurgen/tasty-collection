@@ -20,6 +20,7 @@ import SignIn from './user/pages/SignIn';
 import { AuthContext } from './shared/context/AuthContext';
 import Footer from './shared/components/Footer';
 import useAuthentication from './shared/hooks/useAuthentication';
+import AllItems from './items/pages/AllItems';
 
 const messages = {
   [locales.EN]: en,
@@ -37,7 +38,7 @@ export default function App() {
     ROUTES = (
       <Switch>
         <Route exact path="/">
-          <Users />
+          <AllItems />
         </Route>
         <Route exact path="/:userId/items">
           <UserItems />
@@ -55,7 +56,7 @@ export default function App() {
     ROUTES = (
       <Switch>
         <Route exact path="/">
-          <Users />
+          <AllItems />
         </Route>
         <Route exact path="/:userId/items">
           <UserItems />

@@ -197,16 +197,32 @@ const likeItem = async (req, res) => {
       $push: { likes: userId },
     }, { new: true }).exec((err) => {
       if (err) res.send(err);
-      else res.send('added!');
+      else res.send({ status: 'added' });
     });
   } else {
     Item.findByIdAndUpdate(itemId, {
       $pull: { likes: userId },
     }, { new: true }).exec((err) => {
       if (err) res.send(err);
-      else res.send('removed!');
+      else res.send({ status: 'removed' });
     });
   }
+};
+
+const getAllItems = async (req, res, next) => {
+  let items;
+
+  try {
+    items = await Item.find({});
+  } catch (error) {
+    return next(new HttpError(error, 500));
+  }
+
+  if (!items) {
+    return next(new HttpError('Could not found an item by ID', 404));
+  }
+
+  res.json({ items: items.map((item) => item.toObject({ getters: true })) });
 };
 
 exports.getItemById = getItemById;
@@ -215,3 +231,4 @@ exports.createItem = createItem;
 exports.updateItem = updateItem;
 exports.deleteItem = deleteItem;
 exports.likeItem = likeItem;
+exports.getAllItems = getAllItems;
