@@ -11,7 +11,6 @@ const ItemSchema = new Schema({
   tags: { type: Array, required: true },
   creatorId: { type: mongoose.Types.ObjectId, required: true, ref: 'User' },
   likes: [{ type: mongoose.Types.ObjectId, required: true, ref: 'User' }],
-  comments: [{ type: mongoose.Types.ObjectId, required: true, ref: 'Comment' }],
 });
 
 module.exports = mongoose.model('Item', ItemSchema);

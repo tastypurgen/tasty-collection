@@ -5,6 +5,7 @@ import {
 import { Link, useParams, useHistory } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 import Disqus from 'disqus-react';
+import ReactDisqusComments from 'react-disqus-comments';
 
 import Heart from '../../shared/components/Heart';
 import ItemTags from '../component/ItemTags';
@@ -21,6 +22,8 @@ export default function ItemDescription() {
   const intl = useIntl().formatMessage;
   const history = useHistory();
 
+  const disqusShortname = process.env.REACT_APP_DISQUS_NAME;
+
   useEffect(() => {
     const fetchItem = async () => {
       try {
@@ -35,13 +38,6 @@ export default function ItemDescription() {
     };
     fetchItem();
   }, [sendRequest, itemId]);
-
-  const disqusShortname = process.env.REACT_APP_DISQUS_NAME;
-  const disqusConfig = {
-    url: process.env.REACT_APP_DISQUS_URL,
-    identifier: itemId,
-    title: '',
-  };
 
   if (isLoading || !loadedItem) {
     return (
@@ -137,10 +133,26 @@ export default function ItemDescription() {
 
           <hr />
 
-          <Disqus.DiscussionEmbed
-            shortname={disqusShortname}
-            config={disqusConfig}
-          />
+          {loadedItem && (
+            // <Disqus.DiscussionEmbed
+            //   shortname="tasty-collection"
+            //   config={{
+            //     url: 'https://tastycollection.netlify.app/',
+            //     identifier: loadedItem.id,
+            //     title: loadedItem.title,
+            //   }}
+            // />
+            <ReactDisqusComments
+              shortname="tasty-collection"
+              identifier={`#${loadedItem.id}`}
+              title={loadedItem.title}
+              url="https://tastycollection.netlify.app/"
+              category_id={loadedItem.id}
+              onNewComment={() => { console.log('asd'); }}
+            />
+          )}
+
+          {console.log('loadedItem.id: ', loadedItem.id)}
         </Jumbotron>
       </Container>
     </>
