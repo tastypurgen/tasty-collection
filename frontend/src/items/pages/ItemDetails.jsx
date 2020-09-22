@@ -4,6 +4,7 @@ import {
 } from 'react-bootstrap';
 import { Link, useParams, useHistory } from 'react-router-dom';
 import { useIntl } from 'react-intl';
+import Disqus from 'disqus-react';
 
 import Heart from '../../shared/components/Heart';
 import ItemTags from '../component/ItemTags';
@@ -34,6 +35,13 @@ export default function ItemDescription() {
     };
     fetchItem();
   }, [sendRequest, itemId]);
+
+  const disqusShortname = process.env.REACT_APP_DISQUS_NAME;
+  const disqusConfig = {
+    url: process.env.REACT_APP_DISQUS_URL,
+    identifier: itemId,
+    title: '',
+  };
 
   if (isLoading || !loadedItem) {
     return (
@@ -99,9 +107,9 @@ export default function ItemDescription() {
       </Modal>
 
       <Container style={{ maxWidth: '800px' }}>
-        <Jumbotron className="text-center" style={{ width: '100%', maxWidth: '800px' }}>
+        <Jumbotron style={{ width: '100%', maxWidth: '800px' }}>
 
-          <Row>
+          <Row className="text-center">
             <Col>
               <div className="right">
                 <Image className="mw-100 mb-3" style={{ borderRadius: '5px', maxHeight: '400px' }} src={loadedItem.image} alt={loadedItem.title} />
@@ -127,6 +135,12 @@ export default function ItemDescription() {
             </Col>
           </Row>
 
+          <hr />
+
+          <Disqus.DiscussionEmbed
+            shortname={disqusShortname}
+            config={disqusConfig}
+          />
         </Jumbotron>
       </Container>
     </>
