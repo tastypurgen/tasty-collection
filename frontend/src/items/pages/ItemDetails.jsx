@@ -4,8 +4,7 @@ import {
 } from 'react-bootstrap';
 import { Link, useParams, useHistory } from 'react-router-dom';
 import { useIntl } from 'react-intl';
-// import Disqus from 'disqus-react';
-import ReactDisqusComments from 'react-disqus-comments';
+import Disqus from 'disqus-react';
 
 import Heart from '../../shared/components/Heart';
 import ItemTags from '../component/ItemTags';
@@ -103,9 +102,9 @@ export default function ItemDescription() {
       </Modal>
 
       <Container style={{ maxWidth: '800px' }}>
-        <Jumbotron style={{ width: '100%', maxWidth: '800px' }}>
+        <Jumbotron className="text-center" style={{ width: '100%', maxWidth: '800px' }}>
 
-          <Row className="text-center">
+          <Row>
             <Col>
               <div className="right">
                 <Image className="mw-100 mb-3" style={{ borderRadius: '5px', maxHeight: '400px' }} src={loadedItem.image} alt={loadedItem.title} />
@@ -134,21 +133,13 @@ export default function ItemDescription() {
           <hr />
 
           {loadedItem && (
-            // <Disqus.DiscussionEmbed
-            //   shortname="tasty-collection"
-            //   config={{
-            //     url: 'https://tastycollection.netlify.app/',
-            //     identifier: loadedItem.id,
-            //     title: loadedItem.title,
-            //   }}
-            // />
-            <ReactDisqusComments
+            <Disqus.DiscussionEmbed
               shortname="tasty-collection"
-              identifier={`#${loadedItem.id}`}
-              title={loadedItem.title}
-              url="https://tastycollection.netlify.app/"
-              category_id={loadedItem.id}
-              onNewComment={() => { console.log('asd'); }}
+              config={{
+                url: 'https://tastycollection.netlify.app/',
+                identifier: loadedItem.id,
+                title: loadedItem.title,
+              }}
             />
           )}
 
