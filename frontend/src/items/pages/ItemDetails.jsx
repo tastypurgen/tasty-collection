@@ -4,7 +4,7 @@ import {
 } from 'react-bootstrap';
 import { Link, useParams, useHistory } from 'react-router-dom';
 import { useIntl } from 'react-intl';
-import Disqus from 'disqus-react';
+// import Disqus from 'disqus-react';
 import ReactDisqusComments from 'react-disqus-comments';
 
 import Heart from '../../shared/components/Heart';
@@ -22,7 +22,7 @@ export default function ItemDescription() {
   const intl = useIntl().formatMessage;
   const history = useHistory();
 
-  const disqusShortname = process.env.REACT_APP_DISQUS_NAME;
+  // const disqusShortname = process.env.REACT_APP_DISQUS_NAME;
 
   useEffect(() => {
     const fetchItem = async () => {
