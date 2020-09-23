@@ -139,11 +139,10 @@ export default function ItemDescription() {
                 url: `https://tastycollection.netlify.app/${loadedItem.id}`,
                 identifier: `#${loadedItem.id}`,
                 title: loadedItem.title,
+                language: localStorage.LOCALE
               }}
             />
           )}
-
-          {console.log('loadedItem.id: ', loadedItem.id)}
         </Jumbotron>
       </Container>
     </>
