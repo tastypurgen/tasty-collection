@@ -136,8 +136,8 @@ export default function ItemDescription() {
             <Disqus.DiscussionEmbed
               shortname="tasty-collection"
               config={{
-                url: 'https://tastycollection.netlify.app/',
-                identifier: loadedItem.id,
+                url: `https://tastycollection.netlify.app/${loadedItem.id}`,
+                identifier: `#${loadedItem.id}`,
                 title: loadedItem.title,
               }}
             />
