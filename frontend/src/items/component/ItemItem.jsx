@@ -8,6 +8,11 @@ import { AuthContext } from '../../shared/context/AuthContext';
 import { useHttpClient } from '../../shared/hooks/useHttpClient';
 import Heart from '../../shared/components/Heart';
 
+import bookImg from './images/book.svg';
+import filmImg from './images/film.svg';
+import foodImg from './images/food.svg';
+import gameImg from './images/game.svg';
+
 export default function ItemItem({
   // eslint-disable-next-line no-unused-vars
   id, image, type, title, description, tags, creatorId, deleteItem, likes, commonList,
@@ -42,6 +47,13 @@ export default function ItemItem({
     }
   };
 
+  const mapping = {
+    film: filmImg,
+    book: bookImg,
+    game: gameImg,
+    food: foodImg,
+  };
+
   return (
     <>
       <Modal
@@ -69,7 +81,16 @@ export default function ItemItem({
         <Card.Body>
 
           <Link to={`/items/${id}`}>
-            <Card.Title>{title}</Card.Title>
+            <Card.Title>
+              <span>
+                <img
+                  style={{ width: '18px', marginRight: '0.5rem' }}
+                  src={mapping[type]}
+                  alt={title}
+                />
+              </span>
+              {title}
+            </Card.Title>
           </Link>
           <Card.Text>{description}</Card.Text>
           <ItemTags tags={tags} />
