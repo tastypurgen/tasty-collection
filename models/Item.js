@@ -9,9 +9,8 @@ const ItemSchema = new Schema({
   description: { type: String, required: true },
   image: { type: String, required: true },
   tags: { type: Array, required: true },
-  likes: Number,
   creatorId: { type: mongoose.Types.ObjectId, required: true, ref: 'User' },
-  comments: [{ type: mongoose.Types.ObjectId, required: true, ref: 'Comment' }],
+  likes: [{ type: mongoose.Types.ObjectId, required: true, ref: 'User' }],
 });
 
 module.exports = mongoose.model('Item', ItemSchema);

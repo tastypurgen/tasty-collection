@@ -127,8 +127,11 @@ export default function EditItem() {
     <Container style={{ maxWidth: '600px' }}>
       {!isLoading && loadedItem && (
 
-        <Jumbotron style={{ width: '100%', maxWidth: '600px' }}>
-          <Image className="w-100 mb-3" src={loadedItem.image} alt={loadedItem.title} />
+        <Jumbotron style={{
+          textAlign: 'center', width: '100%', maxWidth: '600px',
+        }}
+        >
+          <Image className="mw-100 mb-3" style={{ borderRadius: '5px', maxHeight: '400px' }} src={loadedItem.image} alt={loadedItem.title} />
           <Form onSubmit={submitHandler}>
             <Input
               id="type"

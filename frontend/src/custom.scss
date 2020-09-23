@@ -17,10 +17,15 @@ body,
 
 .container {
   flex: 1 0 auto;
+  padding: 10px 0;
 }
 
 .footer {
   flex: 0 0 auto;
+}
+
+.jumbotron {
+  padding: 1rem !important;
 }
 
 $body-bg: rgb(221, 221, 221);

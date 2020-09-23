@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import ItemItem from './ItemItem';
 
 export default function ItemList({
-  items, error, isLoading, deleteItem,
+  items, error, isLoading, deleteItem, commonList,
 }) {
   if (isLoading) {
     return (
@@ -51,6 +51,7 @@ export default function ItemList({
               likes={item.likes}
               creatorId={item.creatorId}
               deleteItem={deleteItem}
+              commonList={commonList}
             />
           </Col>
         ))}

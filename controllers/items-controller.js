@@ -79,7 +79,6 @@ const createItem = async (req, res, next) => {
     description,
     image: imagePath,
     tags: splitTags(tags),
-    likes: 0,
     creatorId: req.userData.userId,
   });
 
@@ -190,8 +189,46 @@ const deleteItem = async (req, res, next) => {
   res.status(200).json({ message: 'Item deleted' });
 };
 
+const likeItem = async (req, res) => {
+  const { itemId, userId } = req.body;
+  const item = await Item.findById(itemId);
+  if (item.likes.indexOf(userId) === -1) {
+    Item.findByIdAndUpdate(itemId, {
+      $push: { likes: userId },
+    }, { new: true }).exec((err) => {
+      if (err) res.send(err);
+      else res.send({ status: 'added' });
+    });
+  } else {
+    Item.findByIdAndUpdate(itemId, {
+      $pull: { likes: userId },
+    }, { new: true }).exec((err) => {
+      if (err) res.send(err);
+      else res.send({ status: 'removed' });
+    });
+  }
+};
+
+const getAllItems = async (req, res, next) => {
+  let items;
+
+  try {
+    items = await Item.find({});
+  } catch (error) {
+    return next(new HttpError(error, 500));
+  }
+
+  if (!items) {
+    return next(new HttpError('Could not found an item by ID', 404));
+  }
+
+  res.json({ items: items.map((item) => item.toObject({ getters: true })) });
+};
+
 exports.getItemById = getItemById;
 exports.getItemsByUserId = getItemsByUserId;
 exports.createItem = createItem;
 exports.updateItem = updateItem;
 exports.deleteItem = deleteItem;
+exports.likeItem = likeItem;
+exports.getAllItems = getAllItems;

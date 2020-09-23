@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom';
 import { IntlProvider } from 'react-intl';
 
-import Users from './user/pages/Users';
+// import Users from './user/pages/Users';
 import NewItem from './items/pages/NewItem';
 import Header from './shared/components/Header';
 import UserItems from './items/pages/UserItems';
@@ -20,6 +20,8 @@ import SignIn from './user/pages/SignIn';
 import { AuthContext } from './shared/context/AuthContext';
 import Footer from './shared/components/Footer';
 import useAuthentication from './shared/hooks/useAuthentication';
+import AllItems from './items/pages/AllItems';
+import ItemDetails from './items/pages/ItemDetails';
 
 const messages = {
   [locales.EN]: en,
@@ -37,7 +39,7 @@ export default function App() {
     ROUTES = (
       <Switch>
         <Route exact path="/">
-          <Users />
+          <AllItems />
         </Route>
         <Route exact path="/:userId/items">
           <UserItems />
@@ -46,6 +48,9 @@ export default function App() {
           <NewItem />
         </Route>
         <Route exact path="/items/:itemId">
+          <ItemDetails />
+        </Route>
+        <Route exact path="/items/:itemId/edit">
           <EditItem />
         </Route>
         <Redirect to="/" />
@@ -55,7 +60,7 @@ export default function App() {
     ROUTES = (
       <Switch>
         <Route exact path="/">
-          <Users />
+          <AllItems />
         </Route>
         <Route exact path="/:userId/items">
           <UserItems />
