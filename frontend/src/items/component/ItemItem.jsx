@@ -84,7 +84,7 @@ export default function ItemItem({
             <Card.Title>
               <span>
                 <img
-                  style={{ width: '18px', marginRight: '0.5rem' }}
+                  style={{ width: '15px', marginRight: '0.5rem' }}
                   src={mapping[type]}
                   alt={title}
                 />
