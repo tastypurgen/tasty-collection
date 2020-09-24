@@ -12,11 +12,18 @@ import filmImg from '../component/images/film.svg';
 import foodImg from '../component/images/food.svg';
 import gameImg from '../component/images/game.svg';
 
-let allItems;
+const mapping = {
+  all: allImg,
+  film: filmImg,
+  book: bookImg,
+  game: gameImg,
+  food: foodImg,
+};
 
 export default function UserItems() {
   const [loadedItems, setLoadedItems] = useState(null);
   const [filteredItems, setFilteredItems] = useState(null);
+  const [activeFilter, setActiveFilter] = useState('all');
   const { isLoading, error, sendRequest } = useHttpClient();
 
   const { userId } = useParams();
@@ -27,8 +34,7 @@ export default function UserItems() {
         const responseData = await sendRequest(
           `${process.env.REACT_APP_BACKEND_URL}/items/user/${userId}`,
         );
-        allItems = responseData.items;
-        // setFilteredItems(responseData.items);
+        setFilteredItems(responseData.items);
         setLoadedItems(responseData.items);
       } catch (err) {
         // eslint-disable-next-line no-console
@@ -42,12 +48,12 @@ export default function UserItems() {
     setLoadedItems((prev) => prev.filter((item) => item.id !== deleteId));
   };
 
-  const sortItems = (type) => {
-    console.log('allItems: ', allItems);
-    console.log('setLoadedItems: ', loadedItems);
+  const filterItems = (type) => {
     if (type === 'all') {
       setFilteredItems(loadedItems);
+      setActiveFilter('all');
     } else {
+      setActiveFilter(type);
       setFilteredItems(loadedItems.filter((item) => item.type === type));
     }
   };
@@ -60,19 +66,27 @@ export default function UserItems() {
     );
   }
 
+  const types = ['all', 'book', 'film', 'food', 'game'];
+
   return (
     <>
       <h2 className="text-center">My collection</h2>
+
       <div className="type-panel text-center" style={{}}>
-        <img className="active" src={allImg} alt="" onClick={sortItems('all')} />
-        <img src={bookImg} alt="" onClick={sortItems('book')} />
-        <img src={filmImg} alt="" onClick={sortItems('film')} />
-        <img src={foodImg} alt="" onClick={sortItems('food')} />
-        <img src={gameImg} alt="" onClick={sortItems('game')} />
+        {types.map((type) => (
+          <img
+            key={type}
+            className={activeFilter === type ? 'active' : ''}
+            src={mapping[type]}
+            alt={type}
+            onClick={() => filterItems(type)}
+          />
+        ))}
       </div>
+
       <ItemList
         isLoading={isLoading}
-        items={loadedItems}
+        items={filteredItems}
         error={error}
         deleteItem={deleteItem}
       />
