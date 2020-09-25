@@ -47,7 +47,7 @@ export default function Heart({ likes, itemId, zoom }) {
       />
       <div
         className="number"
-        style={zoom && { marginLeft: '50%', top: '3px', transform: 'scale(1.5)' }}
+        style={zoom && { marginLeft: '53%', top: '3px', transform: 'scale(1.5)' }}
       >{likesNumber}
       </div>
     </div>

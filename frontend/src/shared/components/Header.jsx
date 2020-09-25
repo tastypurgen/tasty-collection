@@ -1,17 +1,18 @@
 import React, { useContext } from 'react';
 import {
-  Navbar, Nav, Form, FormControl, Button, Image,
+  Navbar, Nav, Button, Image, Form,
 } from 'react-bootstrap';
 import { NavLink, Link } from 'react-router-dom';
-import { useIntl, FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 
+import './Header.scss';
 import { AuthContext } from '../context/AuthContext';
+import Search from './Search';
 
 const assetsPath = `${process.env.PUBLIC_URL}/assets`;
 
 export default function Header() {
   const auth = useContext(AuthContext);
-  const intl = useIntl();
 
   return (
     <Navbar bg="dark" variant="dark" expand="lg">
@@ -37,16 +38,7 @@ export default function Header() {
           </Nav>
         )}
 
-        <Form className="mr-auto" inline>
-          <FormControl
-            type="text"
-            placeholder={intl.formatMessage({ id: 'Header.SearchPlaceholder' })}
-            className="mr-sm-2"
-          />
-          <Button variant="outline-info">
-            <FormattedMessage id="Header.SearchBtn" />
-          </Button>
-        </Form>
+        {auth.isLoggedIn ? <Search /> : <Form className="mr-auto" inline />}
 
         {!auth.isLoggedIn && (
           <div>

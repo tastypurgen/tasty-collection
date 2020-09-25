@@ -58,8 +58,6 @@ export default function UserItems() {
     }
   };
 
-  console.log(loadedItems);
-
   if (!loadedItems) {
     return (
       <h1>loading...</h1>

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {
-  Container, Row, Col, Button, Spinner,
+  Container, Row, Col, Button, Spinner, Jumbotron,
 } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import ItemItem from './ItemItem';
@@ -28,10 +28,12 @@ export default function ItemList({
   if (!items || items.length === 0 || error) {
     return (
       <Container className="text-center">
-        <h2>No items found</h2>
-        <Link to="/items/add">
-          <Button variant="info" type="button">Add item</Button>
-        </Link>
+        <Jumbotron>
+          <h2>No items found</h2>
+          <Link to="/items/add">
+            <Button variant="info" type="button">Add item</Button>
+          </Link>
+        </Jumbotron>
       </Container>
     );
   }
