@@ -24,6 +24,7 @@ fetch(`${process.env.REACT_APP_BACKEND_URL}/items/all`)
 
 export default function Search() {
   const [searchInput, setSearchInput] = useState('');
+  const [showSearch, setShowSearch] = useState(false);
 
   const Hit = ({ hit }) => (
     <Link to={`/items/${hit.id}`} onClick={() => setSearchInput('')}>
@@ -56,9 +57,14 @@ export default function Search() {
       <SearchBox
         translations={{ placeholder: '...' }}
         onChange={handleSearch}
+        onFocus={() => setShowSearch(true)}
+        onBlur={() => {
+          setShowSearch(false);
+          setSearchInput('');
+        }}
         value={searchInput}
       />
-      {searchInput && <Hits hitComponent={Hit} />}
+      {showSearch && searchInput && <Hits hitComponent={Hit} />}
     </InstantSearch>
   );
 }
