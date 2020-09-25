@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import {
-  Navbar, Nav, Button, Image,
+  Navbar, Nav, Button, Image, Form,
 } from 'react-bootstrap';
 import { NavLink, Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
@@ -38,7 +38,7 @@ export default function Header() {
           </Nav>
         )}
 
-        {auth.isLoggedIn && <Search />}
+        {auth.isLoggedIn ? <Search /> : <Form className="mr-auto" inline />}
 
         {!auth.isLoggedIn && (
           <div>

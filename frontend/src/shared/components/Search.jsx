@@ -46,6 +46,7 @@ export default function Search() {
   const handleSearch = (event) => {
     setSearchInput(event.target.value);
   };
+
   return (
 
     <InstantSearch
