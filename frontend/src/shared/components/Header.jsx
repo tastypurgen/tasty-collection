@@ -38,7 +38,7 @@ export default function Header() {
           </Nav>
         )}
 
-        <Search />
+        {auth.isLoggedIn && <Search />}
 
         {!auth.isLoggedIn && (
           <div>

@@ -10,7 +10,7 @@ const searchClient = algoliasearch(
 
 const client = algoliasearch(process.env.REACT_APP_ALGOLIA_ID, process.env.REACT_APP_ALGOLIA_KEY);
 
-const index = client.initIndex('tasty-collection-test');
+const index = client.initIndex(process.env.REACT_APP_ALGOLIA_NAME);
 
 fetch(`${process.env.REACT_APP_BACKEND_URL}/items/all`)
   .then((response) => response.json())
