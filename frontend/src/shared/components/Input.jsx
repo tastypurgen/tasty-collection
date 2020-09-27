@@ -1,6 +1,7 @@
 import React, { useReducer, useEffect } from 'react';
 import { FormControl, Form, Alert } from 'react-bootstrap';
 import { useIntl } from 'react-intl';
+
 import { validate } from '../../utils/validator';
 
 const inputReducer = (state, action) => {
@@ -48,6 +49,7 @@ export default function Input({
       type: 'TOUCH',
     });
   };
+
   let component;
   if (element === 'input') {
     component = (

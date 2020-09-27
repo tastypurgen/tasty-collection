@@ -5,6 +5,7 @@ import {
 import { Link, useParams, useHistory } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 import Disqus from 'disqus-react';
+import Markdown from 'markdown-to-jsx';
 
 import Heart from '../../shared/components/Heart';
 import ItemTags from '../component/ItemTags';
@@ -115,7 +116,7 @@ export default function ItemDescription() {
             <Col>
               <div className="left">
                 <h2>{loadedItem.title}</h2>
-                <h5>{loadedItem.description}</h5>
+                <p><Markdown>{loadedItem.description}</Markdown></p>
                 <ItemTags tags={loadedItem.tags} />
 
                 {auth.userId === loadedItem.creatorId && (
@@ -139,7 +140,7 @@ export default function ItemDescription() {
                 url: `https://tastycollection.netlify.app/${loadedItem.id}`,
                 identifier: `#${loadedItem.id}`,
                 title: loadedItem.title,
-                language: localStorage.LOCALE
+                language: localStorage.LOCALE,
               }}
             />
           )}

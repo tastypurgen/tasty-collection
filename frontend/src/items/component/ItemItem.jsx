@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { Card, Button, Modal } from 'react-bootstrap';
 import { useIntl } from 'react-intl';
+import Markdown from 'markdown-to-jsx';
 
 import { Link } from 'react-router-dom';
 import ItemTags from './ItemTags';
@@ -92,7 +93,7 @@ export default function ItemItem({
               {title}
             </Card.Title>
           </Link>
-          <Card.Text>{description}</Card.Text>
+          <Card.Text><Markdown>{description}</Markdown></Card.Text>
           <ItemTags tags={tags} />
           {auth.userId && <Heart likes={likes} itemId={id} />}
           {auth.userId === creatorId && !commonList && (
