@@ -41,18 +41,21 @@ export default function Header() {
         {auth.isLoggedIn ? <Search /> : <Form className="mr-auto" inline />}
 
         {!auth.isLoggedIn && (
-          <div>
-            <Link to="/signin">
-              <Button className="ml-2" variant="outline-light">
-                <FormattedMessage id="Header.SignIn" />
-              </Button>
-            </Link>
-            <Link to="/signup">
-              <Button className="ml-2" variant="outline-light">
-                <FormattedMessage id="Header.SignUp" />
-              </Button>
-            </Link>
-          </div>
+          <>
+            <Search />
+            <div>
+              <Link to="/signin">
+                <Button className="ml-2" variant="outline-light">
+                  <FormattedMessage id="Header.SignIn" />
+                </Button>
+              </Link>
+              <Link to="/signup">
+                <Button className="ml-2" variant="outline-light">
+                  <FormattedMessage id="Header.SignUp" />
+                </Button>
+              </Link>
+            </div>
+          </>
         )}
 
         {auth.isLoggedIn && (
