@@ -1,7 +1,7 @@
 import React, { useReducer, useEffect } from 'react';
 import { FormControl, Form, Alert } from 'react-bootstrap';
 import { useIntl } from 'react-intl';
-
+import '@github/markdown-toolbar-element';
 import { validate } from '../../utils/validator';
 
 const inputReducer = (state, action) => {
@@ -35,7 +35,6 @@ export default function Input({
 
   const intl = useIntl().formatMessage;
   const { value, isValid } = inputState;
-
   useEffect(() => {
     onInput(id, value, isValid);
   }, [id, value, isValid, onInput]);
@@ -84,16 +83,37 @@ export default function Input({
     );
   } else {
     component = (
-      <Form.Group>
-        <FormControl
-          as="textarea"
-          id={id}
-          rows={rows || 3}
-          onChange={changeHandler}
-          onBlur={touchHandler}
-          value={inputState.value}
-        />
-      </Form.Group>
+      <>
+        <br />
+        <markdown-toolbar
+          style={{
+            color: 'white', fontSize: '1.2rem', background: '#757575', borderRadius: '5px', padding: '0 2px',
+          }}
+          for={id}
+        >
+          <md-bold>B </md-bold>
+          <md-header>H </md-header>
+          <md-italic>I </md-italic>
+          <md-quote>Q </md-quote>
+          <md-code>C </md-code>
+          <md-link>L </md-link>
+          <md-image>I </md-image>
+          <md-unordered-list>UL </md-unordered-list>
+          <md-ordered-list>OL</md-ordered-list>
+        </markdown-toolbar>
+
+        <Form.Group>
+          <FormControl
+            as="textarea"
+            id={id}
+            rows={rows || 7}
+            onChange={changeHandler}
+            onBlur={touchHandler}
+            value={inputState.value}
+          />
+
+        </Form.Group>
+      </>
     );
   }
 
