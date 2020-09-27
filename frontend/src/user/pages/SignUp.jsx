@@ -19,6 +19,10 @@ export default function SignUp() {
   } = useHttpClient();
   const [formState, inputHandler] = useForm(
     {
+      image: {
+        value: '',
+        isValid: false,
+      },
       name: {
         value: '',
         isValid: false,

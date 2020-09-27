@@ -58,12 +58,6 @@ export default function UserItems() {
     }
   };
 
-  if (!loadedItems) {
-    return (
-      <h1>loading...</h1>
-    );
-  }
-
   const types = ['all', 'book', 'film', 'food', 'game'];
 
   return (

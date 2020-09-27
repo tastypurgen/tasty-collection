@@ -9,7 +9,7 @@ import ItemItem from './ItemItem';
 export default function ItemList({
   items, error, isLoading, deleteItem, commonList,
 }) {
-  if (isLoading) {
+  if (isLoading && !items) {
     return (
       <Container className="text-center">
         <Spinner
