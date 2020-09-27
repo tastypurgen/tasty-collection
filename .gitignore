@@ -26,3 +26,4 @@ yarn-error.log*
 notes.md
 uploads
 build
+package-lock.json
