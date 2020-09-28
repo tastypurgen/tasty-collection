@@ -36,33 +36,11 @@ export default function App() {
 
   let ROUTES;
   if (currentToken) {
-    if (isAdmin) {
-      ROUTES = (
-        <Switch>
-          <Route exact path="/users">
-            <Users />
-          </Route>
-          <Route exact path="/">
-            <AllItems />
-          </Route>
-          <Route exact path="/:userId/items">
-            <UserItems />
-          </Route>
-          <Route exact path="/items/add">
-            <NewItem />
-          </Route>
-          <Route exact path="/items/:itemId">
-            <ItemDetails />
-          </Route>
-          <Route exact path="/items/:itemId/edit">
-            <EditItem />
-          </Route>
-          <Redirect to="/" />
-        </Switch>
-      );
-    }
     ROUTES = (
       <Switch>
+        <Route exact path="/users">
+          <Users />
+        </Route>
         <Route exact path="/">
           <AllItems />
         </Route>
@@ -80,7 +58,6 @@ export default function App() {
         </Route>
         <Redirect to="/" />
       </Switch>
-
     );
   } else {
     ROUTES = (
