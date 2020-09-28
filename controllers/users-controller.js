@@ -108,7 +108,7 @@ const loginUser = async (req, res, next) => {
   let token;
   try {
     token = jwt.sign(
-      { userId: foundUser.id, name: foundUser.name },
+      { userId: foundUser.id, name: foundUser.name, isAdmin: foundUser.isAdmin },
       process.env.JWT_SECRET,
       { expiresIn: '1d' },
     );
@@ -118,7 +118,9 @@ const loginUser = async (req, res, next) => {
     return next(new HttpError('Signing in failed'));
   }
 
-  res.json({ userId: foundUser.id, name: foundUser.name, token });
+  res.json({
+    userId: foundUser.id, name: foundUser.name, isAdmin: foundUser.isAdmin, token,
+  });
 };
 
 exports.getAllUsers = getAllUsers;

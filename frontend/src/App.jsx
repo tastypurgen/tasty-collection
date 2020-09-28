@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom';
 import { IntlProvider } from 'react-intl';
 
-// import Users from './user/pages/Users';
+import Users from './user/pages/Users';
 import NewItem from './items/pages/NewItem';
 import Header from './shared/components/Header';
 import UserItems from './items/pages/UserItems';
@@ -31,13 +31,16 @@ const messages = {
 export default function App() {
   const [locale, setLocale] = useState(localStorage.LOCALE || locales.EN);
   const {
-    userId, currentToken, login, logout,
+    userId, isAdmin, currentToken, login, logout,
   } = useAuthentication();
 
   let ROUTES;
   if (currentToken) {
     ROUTES = (
       <Switch>
+        <Route exact path="/users">
+          <Users />
+        </Route>
         <Route exact path="/">
           <AllItems />
         </Route>
@@ -78,7 +81,7 @@ export default function App() {
 
   return (
     <AuthContext.Provider value={{
-      isLoggedIn: !!currentToken, currentToken, userId, login, logout,
+      isLoggedIn: !!currentToken, isAdmin, currentToken, userId, login, logout,
     }}
     >
       <Router>

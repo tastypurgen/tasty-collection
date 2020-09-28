@@ -14,7 +14,11 @@ module.exports = (req, res, next) => {
     }
 
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-    req.userData = { userId: decodedToken.userId, name: decodedToken.name };
+    req.userData = {
+      isAdmin: decodedToken.isAdmin,
+      userId: decodedToken.userId,
+      name: decodedToken.name,
+    };
     next();
   } catch (error) {
     // eslint-disable-next-line no-console
