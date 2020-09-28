@@ -96,12 +96,12 @@ export default function ItemItem({
           <Card.Text><Markdown>{description}</Markdown></Card.Text>
           <ItemTags tags={tags} />
           {auth.userId && <Heart likes={likes} itemId={id} />}
-          {auth.userId === creatorId && !commonList && (
+          {(auth.userId === creatorId || auth.isAdmin) && !commonList && (
             <Link to={`/items/${id}/edit`}>
               <Button className="mt-1" variant="info" size="sm">{intl({ id: 'ItemItem.Edit' })}</Button>
             </Link>
           )}
-          {auth.userId === creatorId && !commonList && (
+          {(auth.userId === creatorId || auth.isAdmin) && !commonList && (
             <Button onClick={confirmDelete} className="mt-1" variant="danger" size="sm">{intl({ id: 'ItemItem.Delete' })}</Button>
           )}
         </Card.Body>

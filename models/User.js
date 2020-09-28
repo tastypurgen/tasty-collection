@@ -8,6 +8,7 @@ const userSchema = new Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   image: { type: String, required: true },
+  isAdmin: { type: Boolean, required: true },
   items: [{ type: mongoose.Types.ObjectId, required: true, ref: 'Items' }],
 });
 

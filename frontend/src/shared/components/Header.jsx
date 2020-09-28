@@ -35,6 +35,11 @@ export default function Header() {
             <Nav.Link as={NavLink} to="/items/add">
               <FormattedMessage id="Header.AddItem" />
             </Nav.Link>
+            { auth.isAdmin && (
+              <Nav.Link as={NavLink} to="/users">
+                <FormattedMessage id="Header.Users" />
+              </Nav.Link>
+            )}
           </Nav>
         )}
 
