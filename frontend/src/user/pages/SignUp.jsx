@@ -54,7 +54,7 @@ export default function SignUp() {
         formData,
       );
 
-      auth.login(responeData.userId, responeData.token);
+      auth.login(responeData.userId, responeData.isAdmin, responeData.token);
     } catch (err) {
       // eslint-disable-next-line no-console
       console.log('err: ', err);

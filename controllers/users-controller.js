@@ -81,14 +81,16 @@ const createUser = async (req, res, next) => {
 
   let token;
   try {
-    token = jwt.sign({ userId: createdUser.id, name: createdUser.name }, process.env.JWT_SECRET, { expiresIn: '1d' });
+    token = jwt.sign({ userId: createdUser.id, isAdmin: createdUser.isAdmin, name: createdUser.name }, process.env.JWT_SECRET, { expiresIn: '1d' });
   } catch (error) {
     // eslint-disable-next-line no-console
     console.log(error);
     return next(new HttpError('Signing up failed'));
   }
 
-  res.status(201).json({ userId: createdUser.id, name: createdUser.name, token });
+  res.status(201).json({
+    userId: createdUser.id, isAdmin: createdUser.isAdmin, name: createdUser.name, token,
+  });
 };
 
 const loginUser = async (req, res, next) => {
