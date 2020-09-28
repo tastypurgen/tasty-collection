@@ -129,7 +129,7 @@ const updateItem = async (req, res, next) => {
     return next(new HttpError(error, 500));
   }
 
-  if (item.creatorId.toString() !== req.userData.userId) {
+  if ((item.creatorId.toString() !== req.userData.userId) && !req.userData.isAdmin) {
     return next(new HttpError('forbidden!', 403));
   }
 
@@ -161,7 +161,7 @@ const deleteItem = async (req, res, next) => {
     return next(new HttpError('Place for this ID not found'), 404);
   }
 
-  if (item.creatorId.id !== req.userData.userId) {
+  if ((item.creatorId.id !== req.userData.userId) && !req.userData.isAdmin) {
     return next(new HttpError('forbidden!', 403));
   }
 
